@@ -68,22 +68,85 @@
 
             </li>
             <li>
-                    <a class="class" href="#DrawState">DrawState</a>
+                    <a class="class" href="#User">User</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="function" href="#DrawState.__init__">DrawState</a>
+                                <a class="function" href="#User.__init__">User</a>
                         </li>
                 </ul>
 
             </li>
             <li>
-                    <a class="class" href="#APIServices">APIServices</a>
+                    <a class="class" href="#DrawLogic">DrawLogic</a>
                             <ul class="memberlist">
                         <li>
-                                <a class="function" href="#APIServices.__init__">APIServices</a>
+                                <a class="function" href="#DrawLogic.__init__">DrawLogic</a>
                         </li>
                         <li>
-                                <a class="function" href="#APIServices.residence_halls">residence_halls</a>
+                                <a class="function" href="#DrawLogic.comparePriorityNumbers">comparePriorityNumbers</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawLogic.isGenderLocked">isGenderLocked</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawLogic.isFroshRoom">isFroshRoom</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawLogic.isFroshBumpLegal">isFroshBumpLegal</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#DrawState">DrawState</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#DrawState.__init__">DrawState</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawState.userAtRoom">userAtRoom</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawState.allRooms">allRooms</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawState.allRoomsPossible">allRoomsPossible</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawState.allResidenceHalls">allResidenceHalls</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawState.allResidenceHallsPossible">allResidenceHallsPossible</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#DrawAction">DrawAction</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#DrawAction.__init__">DrawAction</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawAction.canPullInto">canPullInto</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawAction.pullInto">pullInto</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawAction.undoPullForStudent">undoPullForStudent</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#DrawNotifier">DrawNotifier</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#DrawNotifier.__init__">DrawNotifier</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#DrawNotifier.sendEmail">sendEmail</a>
                         </li>
                 </ul>
 
@@ -132,6 +195,7 @@ email when they get bumped from their room.</p>
 
 <span class="n">Pixel</span> <span class="o">=</span> <span class="nb">int</span>
 
+
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Image</span><span class="p">:</span>
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
@@ -140,8 +204,11 @@ email when they get bumped from their room.</p>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Room</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A single room in a residential building.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A single room in a residential building.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">residence_hall_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">gender_locked</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floor_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">suite</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>
@@ -161,31 +228,143 @@ email when they get bumped from their room.</p>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Floor</span><span class="p">]</span>
 
-<span class="k">class</span> <span class="nc">DrawState</span><span class="p">:</span>
+<span class="nd">@dataclass</span> 
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains information about users.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">draw_priority_number</span><span class="p">:</span> <span class="nb">int</span>
+
+<span class="k">class</span> <span class="nc">DrawLogic</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs the logic functions of the HMC Room Draw Backend. </span>
+<span class="sd">    Satisifies requirement 3 in the Digital Draw Application Requirements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+        <span class="kc">None</span> 
+    
+
+    <span class="k">def</span> <span class="nf">comparePriorityNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares priority numbers of student1 and student2.</span>
+<span class="sd">            Returns True if student 1 has higher priority </span>
+<span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
 
-
-
-
-
-
-<span class="k">class</span> <span class="nc">APIServices</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="c1"># authenticator: GoogleAuthenticator,</span>
-        <span class="c1"># draw_engine: DigitalDrawEngine,</span>
-        <span class="c1"># residence_halls_service: ResidenceHallsService,</span>
-        <span class="c1"># users_service: UsersService,</span>
-        <span class="p">):</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="nf">residence_halls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">isGenderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
+<span class="sd">        Determines if a room is gender locked and if the student&#39;s gender</span>
+<span class="sd">        agrees with the gender lock</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+
+    <span class="k">def</span> <span class="nf">isFroshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if a desired room is reserved for freshman. </span>
+<span class="sd">        If so the student must complete, a frosh bump and choose a </span>
+<span class="sd">        valid room for the frosh to live in</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="kc">False</span>
+    
+
+    <span class="k">def</span> <span class="nf">isFroshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bumpedRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">        Based on the rules of frosh bumping in the Room Draw Regulations</span>
+<span class="sd">        we can determine if a frosh bump is legal</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">class</span> <span class="nc">DrawState</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Stores the total state of what goes on in the digital draw&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># rooms is a dictionary with keys representing rooms and values </span>
+        <span class="c1"># representing the current user </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>
+    
+
+    <span class="k">def</span> <span class="nf">userAtRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; userAtRoom takes in a room and finds the user at that specific room. </span>
+<span class="sd">        Returns the student or None if there is no student. </span>
+<span class="sd">        Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    
+    <span class="k">def</span> <span class="nf">allRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the rooms the student can pull into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">allRoomsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the possible rooms the student can pull into based</span>
+<span class="sd">        on the DrawLogic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">allResidenceHalls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allResidenceHalls returns all the residence halls the student can pull into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">allResidenceHallsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the possible residence halls the student can pull </span>
+<span class="sd">        into based on the DrawLogic</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="p">[]</span>
+    
+
+<span class="k">class</span> <span class="nc">DrawAction</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Potential actions a user can perform (frequently interacts with DrawState)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        canPullInto takes in a student and a desiredRoom and returns </span>
+<span class="sd">        whether or not the student can pull into the room</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+
+    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        pullInto takes in a student and a desiredRoom and pulls the student into a room. </span>
+<span class="sd">        Returns None if the action is completed and an Exception if the action fails.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
+    
+
+    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        undoPullForStudent takes in a student and undos their pull. </span>
+<span class="sd">        Returns None if the action is completed and an Exception if the action fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">DrawNotifier</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Notifies a student that they have been bumped through email (using gmail API)&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">sendEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sends an email to a student if they have been bumped by a student with a better priority number.</span>
+<span class="sd">           Returns None if the email is sent and an Exception if the action fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
@@ -242,8 +421,11 @@ email when they get bumped from their room.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Room</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;A single room in a residential building.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A single room in a residential building.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">residence_hall_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">gender_locked</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floor_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">suite</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>
@@ -259,7 +441,13 @@ email when they get bumped from their room.</p>
                                         <div class="attr function"><a class="headerlink" href="#Room.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">Room</span><span class="signature">(residence_hall_name: str, floor_number: int, suite: str, number: str)</span>
+            <span class="name">Room</span><span class="signature">(
+    residence_hall_name: str,
+    gender_locked: str,
+    floor_number: int,
+    suite: str,
+    number: str
+)</span>
     </div>
 
         
@@ -349,6 +537,241 @@ email when they get bumped from their room.</p>
 
                             </div>
                 </section>
+                <section id="User">
+                                <div class="attr class">
+        <a class="headerlink" href="#User">#&nbsp;&nbsp</a>
+
+                <div class="decorator">@dataclass</div>
+
+        <span class="def">class</span>
+        <span class="name">User</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="nd">@dataclass</span> 
+<span class="k">class</span> <span class="nc">User</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Contains information about users.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">draw_priority_number</span><span class="p">:</span> <span class="nb">int</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Contains information about users.</p>
+</div>
+
+
+                            <div id="User.__init__" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#User.__init__">#&nbsp;&nbsp</a>
+
+        
+            <span class="name">User</span><span class="signature">(name: str, email: str, phone_number: str, draw_priority_number: int)</span>
+    </div>
+
+        
+    
+
+                            </div>
+                </section>
+                <section id="DrawLogic">
+                                <div class="attr class">
+        <a class="headerlink" href="#DrawLogic">#&nbsp;&nbsp</a>
+
+        
+        <span class="def">class</span>
+        <span class="name">DrawLogic</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DrawLogic</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs the logic functions of the HMC Room Draw Backend. </span>
+<span class="sd">    Satisifies requirement 3 in the Digital Draw Application Requirements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span> 
+    
+
+    <span class="k">def</span> <span class="nf">comparePriorityNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares priority numbers of student1 and student2.</span>
+<span class="sd">            Returns True if student 1 has higher priority </span>
+<span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+    <span class="k">def</span> <span class="nf">isGenderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if a room is gender locked and if the student&#39;s gender</span>
+<span class="sd">        agrees with the gender lock</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+
+    <span class="k">def</span> <span class="nf">isFroshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if a desired room is reserved for freshman. </span>
+<span class="sd">        If so the student must complete, a frosh bump and choose a </span>
+<span class="sd">        valid room for the frosh to live in</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="kc">False</span>
+    
+
+    <span class="k">def</span> <span class="nf">isFroshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bumpedRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">        Based on the rules of frosh bumping in the Room Draw Regulations</span>
+<span class="sd">        we can determine if a frosh bump is legal</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Performs the logic functions of the HMC Room Draw Backend. 
+Satisifies requirement 3 in the Digital Draw Application Requirements.</p>
+</div>
+
+
+                            <div id="DrawLogic.__init__" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.__init__">#&nbsp;&nbsp</a>
+
+        
+            <span class="name">DrawLogic</span><span class="signature">()</span>
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span> 
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="DrawLogic.comparePriorityNumbers" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.comparePriorityNumbers">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">comparePriorityNumbers</span><span class="signature">(
+    self,
+    student1: <a href="#User">roomdraw_backend.User</a>,
+    student2: <a href="#User">roomdraw_backend.User</a>
+) -&gt; bool</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">comparePriorityNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares priority numbers of student1 and student2.</span>
+<span class="sd">            Returns True if student 1 has higher priority </span>
+<span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Compares priority numbers of student1 and student2.
+Returns True if student 1 has higher priority 
+(greater seniority or lower Room Draw number) than student2</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawLogic.isGenderLocked" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.isGenderLocked">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">isGenderLocked</span><span class="signature">(
+    self,
+    desiredRoom: <a href="#Room">roomdraw_backend.Room</a>,
+    student: <a href="#User">roomdraw_backend.User</a>
+) -&gt; bool</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isGenderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if a room is gender locked and if the student&#39;s gender</span>
+<span class="sd">        agrees with the gender lock</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Determines if a room is gender locked and if the student's gender
+agrees with the gender lock</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawLogic.isFroshRoom" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.isFroshRoom">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">isFroshRoom</span><span class="signature">(self, desiredRoom: <a href="#Room">roomdraw_backend.Room</a>) -&gt; bool</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isFroshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Determines if a desired room is reserved for freshman. </span>
+<span class="sd">        If so the student must complete, a frosh bump and choose a </span>
+<span class="sd">        valid room for the frosh to live in</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Determines if a desired room is reserved for freshman. 
+If so the student must complete, a frosh bump and choose a 
+valid room for the frosh to live in</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawLogic.isFroshBumpLegal" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.isFroshBumpLegal">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">isFroshBumpLegal</span><span class="signature">(self, bumpedRoom: <a href="#Room">roomdraw_backend.Room</a>) -&gt; bool</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isFroshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bumpedRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">        Based on the rules of frosh bumping in the Room Draw Regulations</span>
+<span class="sd">        we can determine if a frosh bump is legal</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Based on the rules of frosh bumping in the Room Draw Regulations
+we can determine if a frosh bump is legal</p>
+</div>
+
+
+                            </div>
+                </section>
                 <section id="DrawState">
                                 <div class="attr class">
         <a class="headerlink" href="#DrawState">#&nbsp;&nbsp</a>
@@ -361,13 +784,56 @@ email when they get bumped from their room.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DrawState</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Stores the total state of what goes on in the digital draw&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+        <span class="c1"># rooms is a dictionary with keys representing rooms and values </span>
+        <span class="c1"># representing the current user </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>
+    
+
+    <span class="k">def</span> <span class="nf">userAtRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; userAtRoom takes in a room and finds the user at that specific room. </span>
+<span class="sd">        Returns the student or None if there is no student. </span>
+<span class="sd">        Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    
+    <span class="k">def</span> <span class="nf">allRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the rooms the student can pull into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">allRoomsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the possible rooms the student can pull into based</span>
+<span class="sd">        on the DrawLogic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">allResidenceHalls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allResidenceHalls returns all the residence halls the student can pull into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    
+    
+    <span class="k">def</span> <span class="nf">allResidenceHallsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the possible residence halls the student can pull </span>
+<span class="sd">        into based on the DrawLogic</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="p">[]</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>Stores the total state of what goes on in the digital draw</p>
+</div>
+
 
                             <div id="DrawState.__init__" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#DrawState.__init__">#&nbsp;&nbsp</a>
@@ -379,7 +845,9 @@ email when they get bumped from their room.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+        <span class="c1"># rooms is a dictionary with keys representing rooms and values </span>
+        <span class="c1"># representing the current user </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>
 </pre></div>
 
         </details>
@@ -387,83 +855,359 @@ email when they get bumped from their room.</p>
     
 
                             </div>
-                </section>
-                <section id="APIServices">
-                                <div class="attr class">
-        <a class="headerlink" href="#APIServices">#&nbsp;&nbsp</a>
-
-        
-        <span class="def">class</span>
-        <span class="name">APIServices</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">APIServices</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="c1"># authenticator: GoogleAuthenticator,</span>
-        <span class="c1"># draw_engine: DigitalDrawEngine,</span>
-        <span class="c1"># residence_halls_service: ResidenceHallsService,</span>
-        <span class="c1"># users_service: UsersService,</span>
-        <span class="p">):</span>
-        <span class="k">pass</span>
-
-    <span class="k">def</span> <span class="nf">residence_halls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">pass</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            <div id="APIServices.__init__" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#APIServices.__init__">#&nbsp;&nbsp</a>
-
-        
-            <span class="name">APIServices</span><span class="signature">()</span>
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="c1"># authenticator: GoogleAuthenticator,</span>
-        <span class="c1"># draw_engine: DigitalDrawEngine,</span>
-        <span class="c1"># residence_halls_service: ResidenceHallsService,</span>
-        <span class="c1"># users_service: UsersService,</span>
-        <span class="p">):</span>
-        <span class="k">pass</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="APIServices.residence_halls" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#APIServices.residence_halls">#&nbsp;&nbsp</a>
+                            <div id="DrawState.userAtRoom" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.userAtRoom">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">residence_halls</span><span class="signature">(self) -&gt; list[<a href="#ResidenceHall">roomdraw_backend.ResidenceHall</a>]</span>:
+            <span class="name">userAtRoom</span><span class="signature">(self, room: <a href="#Room">roomdraw_backend.Room</a>) -&gt; <a href="#User">roomdraw_backend.User</a></span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">residence_halls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">userAtRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot; userAtRoom takes in a room and finds the user at that specific room. </span>
+<span class="sd">        Returns the student or None if there is no student. </span>
+<span class="sd">        Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>userAtRoom takes in a room and finds the user at that specific room. 
+Returns the student or None if there is no student. 
+Helps satisfiy requirement 7 in Digital Draw Application Requirements</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawState.allRooms" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.allRooms">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">allRooms</span><span class="signature">(self) -&gt; list[<a href="#Room">roomdraw_backend.Room</a>]</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        </span>
+<span class="sd">        allRooms returns all the rooms the student can pull into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>allRooms returns all the rooms the student can pull into</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawState.allRoomsPossible" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.allRoomsPossible">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">allRoomsPossible</span><span class="signature">(self, student: <a href="#User">roomdraw_backend.User</a>) -&gt; list[<a href="#Room">roomdraw_backend.Room</a>]</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allRoomsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the possible rooms the student can pull into based</span>
+<span class="sd">        on the DrawLogic</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>allRooms returns all the possible rooms the student can pull into based
+on the DrawLogic</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawState.allResidenceHalls" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.allResidenceHalls">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">allResidenceHalls</span><span class="signature">(self) -&gt; list[<a href="#ResidenceHall">roomdraw_backend.ResidenceHall</a>]</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allResidenceHalls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allResidenceHalls returns all the residence halls the student can pull into</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>allResidenceHalls returns all the residence halls the student can pull into</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawState.allResidenceHallsPossible" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.allResidenceHallsPossible">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">allResidenceHallsPossible</span><span class="signature">(
+    self,
+    student: <a href="#User">roomdraw_backend.User</a>
+) -&gt; list[<a href="#ResidenceHall">roomdraw_backend.ResidenceHall</a>]</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allResidenceHallsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        allRooms returns all the possible residence halls the student can pull </span>
+<span class="sd">        into based on the DrawLogic</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="k">return</span> <span class="p">[]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>allRooms returns all the possible residence halls the student can pull 
+into based on the DrawLogic</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="DrawAction">
+                                <div class="attr class">
+        <a class="headerlink" href="#DrawAction">#&nbsp;&nbsp</a>
+
+        
+        <span class="def">class</span>
+        <span class="name">DrawAction</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DrawAction</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Potential actions a user can perform (frequently interacts with DrawState)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        canPullInto takes in a student and a desiredRoom and returns </span>
+<span class="sd">        whether or not the student can pull into the room</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    
+
+    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        pullInto takes in a student and a desiredRoom and pulls the student into a room. </span>
+<span class="sd">        Returns None if the action is completed and an Exception if the action fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+    
+
+    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        undoPullForStudent takes in a student and undos their pull. </span>
+<span class="sd">        Returns None if the action is completed and an Exception if the action fails</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span>
 </pre></div>
 
         </details>
 
+            <div class="docstring"><p>Potential actions a user can perform (frequently interacts with DrawState)</p>
+</div>
+
+
+                            <div id="DrawAction.__init__" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawAction.__init__">#&nbsp;&nbsp</a>
+
+        
+            <span class="name">DrawAction</span><span class="signature">()</span>
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
     
+
+                            </div>
+                            <div id="DrawAction.canPullInto" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawAction.canPullInto">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">canPullInto</span><span class="signature">(
+    self,
+    student: <a href="#User">roomdraw_backend.User</a>,
+    desiredRoom: <a href="#Room">roomdraw_backend.Room</a>
+) -&gt; bool</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        canPullInto takes in a student and a desiredRoom and returns </span>
+<span class="sd">        whether or not the student can pull into the room</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>canPullInto takes in a student and a desiredRoom and returns 
+whether or not the student can pull into the room</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawAction.pullInto" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawAction.pullInto">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">pullInto</span><span class="signature">(
+    self,
+    student: <a href="#User">roomdraw_backend.User</a>,
+    desiredRoom: <a href="#Room">roomdraw_backend.Room</a>
+) -&gt; None</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        pullInto takes in a student and a desiredRoom and pulls the student into a room. </span>
+<span class="sd">        Returns None if the action is completed and an Exception if the action fails.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>pullInto takes in a student and a desiredRoom and pulls the student into a room. 
+Returns None if the action is completed and an Exception if the action fails.</p>
+</div>
+
+
+                            </div>
+                            <div id="DrawAction.undoPullForStudent" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawAction.undoPullForStudent">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">undoPullForStudent</span><span class="signature">(self, student: <a href="#User">roomdraw_backend.User</a>) -&gt; None</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        undoPullForStudent takes in a student and undos their pull. </span>
+<span class="sd">        Returns None if the action is completed and an Exception if the action fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>undoPullForStudent takes in a student and undos their pull. 
+Returns None if the action is completed and an Exception if the action fails</p>
+</div>
+
+
+                            </div>
+                </section>
+                <section id="DrawNotifier">
+                                <div class="attr class">
+        <a class="headerlink" href="#DrawNotifier">#&nbsp;&nbsp</a>
+
+        
+        <span class="def">class</span>
+        <span class="name">DrawNotifier</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DrawNotifier</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Notifies a student that they have been bumped through email (using gmail API)&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">sendEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sends an email to a student if they have been bumped by a student with a better priority number.</span>
+<span class="sd">           Returns None if the email is sent and an Exception if the action fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Notifies a student that they have been bumped through email (using gmail API)</p>
+</div>
+
+
+                            <div id="DrawNotifier.__init__" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawNotifier.__init__">#&nbsp;&nbsp</a>
+
+        
+            <span class="name">DrawNotifier</span><span class="signature">()</span>
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="DrawNotifier.sendEmail" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawNotifier.sendEmail">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">sendEmail</span><span class="signature">(self, student: <a href="#User">roomdraw_backend.User</a>) -&gt; None</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">sendEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Sends an email to a student if they have been bumped by a student with a better priority number.</span>
+<span class="sd">           Returns None if the email is sent and an Exception if the action fails</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Sends an email to a student if they have been bumped by a student with a better priority number.
+Returns None if the email is sent and an Exception if the action fails</p>
+</div>
+
 
                             </div>
                 </section>
