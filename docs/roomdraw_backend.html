@@ -83,16 +83,16 @@
                                 <a class="function" href="#DrawLogic.__init__">DrawLogic</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawLogic.comparePriorityNumbers">comparePriorityNumbers</a>
+                                <a class="function" href="#DrawLogic.comparePriority">comparePriority</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawLogic.isGenderLocked">isGenderLocked</a>
+                                <a class="function" href="#DrawLogic.genderLocked">genderLocked</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawLogic.isFroshRoom">isFroshRoom</a>
+                                <a class="function" href="#DrawLogic.froshRoom">froshRoom</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawLogic.isFroshBumpLegal">isFroshBumpLegal</a>
+                                <a class="function" href="#DrawLogic.froshBumpLegal">froshBumpLegal</a>
                         </li>
                 </ul>
 
@@ -104,19 +104,13 @@
                                 <a class="function" href="#DrawState.__init__">DrawState</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawState.userAtRoom">userAtRoom</a>
+                                <a class="function" href="#DrawState.getUserIn">getUserIn</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawState.allRooms">allRooms</a>
+                                <a class="function" href="#DrawState.getRoomOf">getRoomOf</a>
                         </li>
                         <li>
-                                <a class="function" href="#DrawState.allRoomsPossible">allRoomsPossible</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#DrawState.allResidenceHalls">allResidenceHalls</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#DrawState.allResidenceHallsPossible">allResidenceHallsPossible</a>
+                                <a class="function" href="#DrawState.getProposedRoom">getProposedRoom</a>
                         </li>
                 </ul>
 
@@ -135,18 +129,6 @@
                         </li>
                         <li>
                                 <a class="function" href="#DrawAction.undoPullForStudent">undoPullForStudent</a>
-                        </li>
-                </ul>
-
-            </li>
-            <li>
-                    <a class="class" href="#DrawNotifier">DrawNotifier</a>
-                            <ul class="memberlist">
-                        <li>
-                                <a class="function" href="#DrawNotifier.__init__">DrawNotifier</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#DrawNotifier.sendEmail">sendEmail</a>
                         </li>
                 </ul>
 
@@ -195,9 +177,14 @@ email when they get bumped from their room.</p>
 
 <span class="n">Pixel</span> <span class="o">=</span> <span class="nb">int</span>
 
+<span class="n">UserId</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">RoomId</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">FloorPlanId</span> <span class="o">=</span> <span class="nb">str</span>
+<span class="n">ResidenceHallId</span> <span class="o">=</span> <span class="nb">str</span>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Image</span><span class="p">:</span>
+    
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">width</span><span class="p">:</span> <span class="n">Pixel</span>
     <span class="n">height</span><span class="p">:</span> <span class="n">Pixel</span>
@@ -207,17 +194,20 @@ email when they get bumped from their room.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A single room in a residential building.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">RoomId</span>
     <span class="n">residence_hall_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">gender_locked</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floor_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">suite</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">gender_locked</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">frosh_room</span><span class="p">:</span> <span class="nb">str</span>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Floor</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Contains the display information of a floor in a residential building.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">FloorPlanId</span>
     <span class="n">residence_hall_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floor_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">rooms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Room</span><span class="p">]</span>
@@ -225,6 +215,7 @@ email when they get bumped from their room.</p>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ResidenceHall</span><span class="p">:</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">ResidenceHallId</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Floor</span><span class="p">]</span>
 
@@ -233,10 +224,12 @@ email when they get bumped from their room.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Contains information about users.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UserId</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">draw_priority_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">class_year</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">priority_number</span><span class="p">:</span> <span class="nb">int</span>
 
 <span class="k">class</span> <span class="nc">DrawLogic</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -246,85 +239,93 @@ email when they get bumped from their room.</p>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kc">None</span> 
     
-
-    <span class="k">def</span> <span class="nf">comparePriorityNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compares priority numbers of student1 and student2.</span>
+    <span class="k">def</span> <span class="nf">comparePriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">UserId</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares class year and priority numbers of student1 and student2.</span>
 <span class="sd">            Returns True if student 1 has higher priority </span>
 <span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the student1 and student2 object from the database</span>
+        <span class="c1"># Compares the class_year attribute of student 1 and student 2</span>
+        <span class="c1"># Compares the priority_number attribute of student 1 and student 2</span>
+        <span class="c1"># Returns the student that has higher priority</span>
         <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="k">def</span> <span class="nf">comparePriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares class year and priority numbers of student1 and student2.</span>
+<span class="sd">            Returns True if student 1 has higher priority </span>
+<span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compares the class_year attribute of student 1 and student 2</span>
+        <span class="c1"># Compares the priority_number attribute of student 1 and student 2</span>
+        <span class="c1"># Returns the student that has higher priority</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
 
-    <span class="k">def</span> <span class="nf">isGenderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">genderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span><span class="n">RoomId</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines if a room is gender locked and if the student&#39;s gender</span>
 <span class="sd">        agrees with the gender lock</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the desired_room and student object from the database</span>
+        <span class="c1"># Determine if the desired_room has a gender locked constraint from</span>
+        <span class="c1"># the gender_locked attribute</span>
+        <span class="c1"># Compare with the gender of the student  </span>
         <span class="k">return</span> <span class="kc">False</span>
     
 
-    <span class="k">def</span> <span class="nf">isFroshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">froshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines if a desired room is reserved for freshman. </span>
 <span class="sd">        If so the student must complete, a frosh bump and choose a </span>
 <span class="sd">        valid room for the frosh to live in</span>
 <span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="c1"># Retrieves the desired_room from the database by calling getRoom(id: RoomId)</span>
+        <span class="c1"># Determine if the desired_room is reserved for freshman</span>
         <span class="k">return</span> <span class="kc">False</span>
     
 
-    <span class="k">def</span> <span class="nf">isFroshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bumpedRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">froshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">,</span> <span class="n">proposed_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;  </span>
-<span class="sd">        Based on the rules of frosh bumping in the Room Draw Regulations</span>
-<span class="sd">        we can determine if a frosh bump is legal</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        Determines if a frosh bump is legal by ensuring that the bumped room follows </span>
+<span class="sd">        Room Draw rules </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the desired_room and proposed_room from the database</span>
+        <span class="c1"># Determine if the desired_room is reserved for freshman</span>
+        <span class="c1"># Determine if the proposed_room is valid based on the Room Draw Rules:</span>
+        <span class="c1"># 1) Check which residence hall the proposed_room is in</span>
+        <span class="c1"># 2) Based on the residence hall, check to see if the proposed_room </span>
+        <span class="c1">#    is in the valid parameters of the Room Draw rules</span>
+        <span class="c1"># For example in Case, you are only able to bump frosh rooms to rooms in </span>
+        <span class="c1"># your desired L</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="k">class</span> <span class="nc">DrawState</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Stores the total state of what goes on in the digital draw&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Returns the total state of what goes on in the digital draw.</span>
+<span class="sd">    Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># rooms is a dictionary with keys representing rooms and values </span>
-        <span class="c1"># representing the current user </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="kc">None</span>
     
-
-    <span class="k">def</span> <span class="nf">userAtRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; userAtRoom takes in a room and finds the user at that specific room. </span>
-<span class="sd">        Returns the student or None if there is no student. </span>
-<span class="sd">        Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+    <span class="k">def</span> <span class="nf">getUserIn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;getUserIn takes in a RoomId and finds the user at that specific room. </span>
+<span class="sd">        Returns the student or None if there is no student.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the room object from the database by calling getRoom (room:RoomId) </span>
+        <span class="c1"># Retrieves the user object from the database by calling getUserIn (room:Room) </span>
         <span class="k">return</span> <span class="kc">None</span>
-
     
-    <span class="k">def</span> <span class="nf">allRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the rooms the student can pull into</span>
+    <span class="k">def</span> <span class="nf">getRoomOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Room</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;getRoomOf takes in a UserId and finds the room the user is currently living in. </span>
+<span class="sd">        Returns the student or None if there is no student. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="c1"># Retrieves the user object from the database by calling getUser (id:UserId) </span>
+        <span class="c1"># Retrieves the room object from the database by calling getRoomOf (user:User) </span>
+        <span class="k">return</span> <span class="kc">None</span>
     
-    
-    <span class="k">def</span> <span class="nf">allRoomsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the possible rooms the student can pull into based</span>
-<span class="sd">        on the DrawLogic</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    
-    
-    <span class="k">def</span> <span class="nf">allResidenceHalls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allResidenceHalls returns all the residence halls the student can pull into</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    
-    
-    <span class="k">def</span> <span class="nf">allResidenceHallsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the possible residence halls the student can pull </span>
-<span class="sd">        into based on the DrawLogic</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="k">return</span> <span class="p">[]</span>
-    
+    <span class="k">def</span> <span class="nf">getProposedRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RoomId</span><span class="p">:</span>
+        <span class="c1"># Retrieves the proposed room for Frosh bump from the student</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
 <span class="k">class</span> <span class="nc">DrawAction</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -332,39 +333,51 @@ email when they get bumped from their room.</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kc">None</span>
-    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        canPullInto takes in a student and a desiredRoom and returns </span>
 <span class="sd">        whether or not the student can pull into the room</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the desired_room is pullable from the DrawLogic class</span>
+        <span class="c1"># 1) Retrieve the student object (given the UserId argument) from the database </span>
+        <span class="c1"># 2) Determine the user that is present in the desired_room by calling </span>
+        <span class="c1">#    getUserIn(room: RoomId)</span>
+        <span class="c1"># 3) If there is a user in the room, then we compare priority numbers </span>
+        <span class="c1">#    of the two students and return the student with the highest priority </span>
+        <span class="c1"># 4) Determine if the desired_room is gender locked and if the gender of</span>
+        <span class="c1">#    the room matches the gender of the student</span>
+        <span class="c1"># 5) Determine if the room is a room reserved for frosh and if an</span>
+        <span class="c1">#    additional request for another room is necessary</span>
+        <span class="c1"># 6) Check if the proposed room is legal by calling </span>
+        <span class="c1">#    the froshBumpLegal(desired_room: RoomId, proposed_room: RoomId) function</span>
         <span class="k">return</span> <span class="kc">False</span>
     
-
-    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        pullInto takes in a student and a desiredRoom and pulls the student into a room. </span>
 <span class="sd">        Returns None if the action is completed and an Exception if the action fails.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) Checks if the desired_room is allowed to be pulled by the student</span>
+        <span class="c1"># 2) Call getUserIn (room: RoomId) to retrieve the previous user</span>
+        <span class="c1"># 3) If the desired_room is allowed to be pulled by the student and there </span>
+        <span class="c1"># was a previous student, then we set the previous user to no Room</span>
+        <span class="c1"># and the Room to no user. </span>
+        <span class="c1"># 4) Set the student to the desired_room and set the desired_room to the student</span>
         <span class="k">pass</span>
     
-
-    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        undoPullForStudent takes in a student and undos their pull. </span>
 <span class="sd">        Returns None if the action is completed and an Exception if the action fails</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) Set the student to no room by</span>
+        <span class="c1">#    1. Calling getRoomOf(user:UserId)</span>
+        <span class="c1">#    2. Calling getUser(id:UserId) </span>
+        <span class="c1">#    3. Calling setUserToRoom(user: User, room: Room)</span>
+        <span class="c1"># 2) Set the room to no user by</span>
+        <span class="c1">#    1. Calling setRoomToNoUser(room: Room) </span>
         <span class="k">pass</span>
-
-<span class="k">class</span> <span class="nc">DrawNotifier</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Notifies a student that they have been bumped through email (using gmail API)&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">sendEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sends an email to a student if they have been bumped by a student with a better priority number.</span>
-<span class="sd">           Returns None if the email is sent and an Exception if the action fails</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
@@ -384,6 +397,7 @@ email when they get bumped from their room.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">Image</span><span class="p">:</span>
+    
     <span class="n">url</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">width</span><span class="p">:</span> <span class="n">Pixel</span>
     <span class="n">height</span><span class="p">:</span> <span class="n">Pixel</span>
@@ -424,11 +438,13 @@ email when they get bumped from their room.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A single room in a residential building.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">RoomId</span>
     <span class="n">residence_hall_name</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">gender_locked</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floor_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">suite</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">number</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">gender_locked</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">frosh_room</span><span class="p">:</span> <span class="nb">str</span>
 </pre></div>
 
         </details>
@@ -442,11 +458,13 @@ email when they get bumped from their room.</p>
 
         
             <span class="name">Room</span><span class="signature">(
+    id: str,
     residence_hall_name: str,
-    gender_locked: str,
     floor_number: int,
     suite: str,
-    number: str
+    number: str,
+    gender_locked: str,
+    frosh_room: str
 )</span>
     </div>
 
@@ -472,6 +490,7 @@ email when they get bumped from their room.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Contains the display information of a floor in a residential building.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">FloorPlanId</span>
     <span class="n">residence_hall_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floor_number</span><span class="p">:</span> <span class="nb">int</span>
     <span class="n">rooms</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Room</span><span class="p">]</span>
@@ -489,6 +508,7 @@ email when they get bumped from their room.</p>
 
         
             <span class="name">Floor</span><span class="signature">(
+    id: str,
     residence_hall_name: str,
     floor_number: int,
     rooms: list,
@@ -515,13 +535,14 @@ email when they get bumped from their room.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="nd">@dataclass</span>
 <span class="k">class</span> <span class="nc">ResidenceHall</span><span class="p">:</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">ResidenceHallId</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">floors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Floor</span><span class="p">]</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>ResidenceHall(name: str, floors: list)</p>
+            <div class="docstring"><p>ResidenceHall(id: str, name: str, floors: list)</p>
 </div>
 
 
@@ -529,7 +550,7 @@ email when they get bumped from their room.</p>
                                         <div class="attr function"><a class="headerlink" href="#ResidenceHall.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">ResidenceHall</span><span class="signature">(name: str, floors: list)</span>
+            <span class="name">ResidenceHall</span><span class="signature">(id: str, name: str, floors: list)</span>
     </div>
 
         
@@ -554,10 +575,12 @@ email when they get bumped from their room.</p>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Contains information about users.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="n">UserId</span>
+    <span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">last_name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">email</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">phone_number</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">draw_priority_number</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">class_year</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">priority_number</span><span class="p">:</span> <span class="nb">int</span>
 </pre></div>
 
         </details>
@@ -570,7 +593,14 @@ email when they get bumped from their room.</p>
                                         <div class="attr function"><a class="headerlink" href="#User.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">User</span><span class="signature">(name: str, email: str, phone_number: str, draw_priority_number: int)</span>
+            <span class="name">User</span><span class="signature">(
+    id: str,
+    first_name: str,
+    last_name: str,
+    email: str,
+    class_year: str,
+    priority_number: int
+)</span>
     </div>
 
         
@@ -597,37 +627,64 @@ email when they get bumped from their room.</p>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kc">None</span> 
     
-
-    <span class="k">def</span> <span class="nf">comparePriorityNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compares priority numbers of student1 and student2.</span>
+    <span class="k">def</span> <span class="nf">comparePriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">UserId</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares class year and priority numbers of student1 and student2.</span>
 <span class="sd">            Returns True if student 1 has higher priority </span>
 <span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the student1 and student2 object from the database</span>
+        <span class="c1"># Compares the class_year attribute of student 1 and student 2</span>
+        <span class="c1"># Compares the priority_number attribute of student 1 and student 2</span>
+        <span class="c1"># Returns the student that has higher priority</span>
         <span class="k">return</span> <span class="kc">False</span>
+    
+    <span class="k">def</span> <span class="nf">comparePriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares class year and priority numbers of student1 and student2.</span>
+<span class="sd">            Returns True if student 1 has higher priority </span>
+<span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Compares the class_year attribute of student 1 and student 2</span>
+        <span class="c1"># Compares the priority_number attribute of student 1 and student 2</span>
+        <span class="c1"># Returns the student that has higher priority</span>
+        <span class="k">return</span> <span class="kc">None</span>
 
 
-    <span class="k">def</span> <span class="nf">isGenderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">genderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span><span class="n">RoomId</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines if a room is gender locked and if the student&#39;s gender</span>
 <span class="sd">        agrees with the gender lock</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the desired_room and student object from the database</span>
+        <span class="c1"># Determine if the desired_room has a gender locked constraint from</span>
+        <span class="c1"># the gender_locked attribute</span>
+        <span class="c1"># Compare with the gender of the student  </span>
         <span class="k">return</span> <span class="kc">False</span>
     
 
-    <span class="k">def</span> <span class="nf">isFroshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">froshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines if a desired room is reserved for freshman. </span>
 <span class="sd">        If so the student must complete, a frosh bump and choose a </span>
 <span class="sd">        valid room for the frosh to live in</span>
 <span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="c1"># Retrieves the desired_room from the database by calling getRoom(id: RoomId)</span>
+        <span class="c1"># Determine if the desired_room is reserved for freshman</span>
         <span class="k">return</span> <span class="kc">False</span>
     
 
-    <span class="k">def</span> <span class="nf">isFroshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bumpedRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">froshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">,</span> <span class="n">proposed_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;  </span>
-<span class="sd">        Based on the rules of frosh bumping in the Room Draw Regulations</span>
-<span class="sd">        we can determine if a frosh bump is legal</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        Determines if a frosh bump is legal by ensuring that the bumped room follows </span>
+<span class="sd">        Room Draw rules </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the desired_room and proposed_room from the database</span>
+        <span class="c1"># Determine if the desired_room is reserved for freshman</span>
+        <span class="c1"># Determine if the proposed_room is valid based on the Room Draw Rules:</span>
+        <span class="c1"># 1) Check which residence hall the proposed_room is in</span>
+        <span class="c1"># 2) Based on the residence hall, check to see if the proposed_room </span>
+        <span class="c1">#    is in the valid parameters of the Room Draw rules</span>
+        <span class="c1"># For example in Case, you are only able to bump frosh rooms to rooms in </span>
+        <span class="c1"># your desired L</span>
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
@@ -656,56 +713,59 @@ Satisifies requirement 3 in the Digital Draw Application Requirements.</p>
     
 
                             </div>
-                            <div id="DrawLogic.comparePriorityNumbers" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.comparePriorityNumbers">#&nbsp;&nbsp</a>
+                            <div id="DrawLogic.comparePriority" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.comparePriority">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">comparePriorityNumbers</span><span class="signature">(
+            <span class="name">comparePriority</span><span class="signature">(
     self,
     student1: <a href="#User">roomdraw_backend.User</a>,
     student2: <a href="#User">roomdraw_backend.User</a>
-) -&gt; bool</span>:
+) -&gt; <a href="#User">roomdraw_backend.User</a></span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">comparePriorityNumbers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Compares priority numbers of student1 and student2.</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">comparePriority</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student1</span><span class="p">:</span><span class="n">User</span><span class="p">,</span> <span class="n">student2</span><span class="p">:</span><span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Compares class year and priority numbers of student1 and student2.</span>
 <span class="sd">            Returns True if student 1 has higher priority </span>
 <span class="sd">            (greater seniority or lower Room Draw number) than student2</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># Compares the class_year attribute of student 1 and student 2</span>
+        <span class="c1"># Compares the priority_number attribute of student 1 and student 2</span>
+        <span class="c1"># Returns the student that has higher priority</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Compares priority numbers of student1 and student2.
+            <div class="docstring"><p>Compares class year and priority numbers of student1 and student2.
 Returns True if student 1 has higher priority 
 (greater seniority or lower Room Draw number) than student2</p>
 </div>
 
 
                             </div>
-                            <div id="DrawLogic.isGenderLocked" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.isGenderLocked">#&nbsp;&nbsp</a>
+                            <div id="DrawLogic.genderLocked" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.genderLocked">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">isGenderLocked</span><span class="signature">(
-    self,
-    desiredRoom: <a href="#Room">roomdraw_backend.Room</a>,
-    student: <a href="#User">roomdraw_backend.User</a>
-) -&gt; bool</span>:
+            <span class="name">genderLocked</span><span class="signature">(self, desired_room: str, student: str) -&gt; bool</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isGenderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">genderLocked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span><span class="n">RoomId</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines if a room is gender locked and if the student&#39;s gender</span>
 <span class="sd">        agrees with the gender lock</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the desired_room and student object from the database</span>
+        <span class="c1"># Determine if the desired_room has a gender locked constraint from</span>
+        <span class="c1"># the gender_locked attribute</span>
+        <span class="c1"># Compare with the gender of the student  </span>
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
@@ -717,22 +777,24 @@ agrees with the gender lock</p>
 
 
                             </div>
-                            <div id="DrawLogic.isFroshRoom" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.isFroshRoom">#&nbsp;&nbsp</a>
+                            <div id="DrawLogic.froshRoom" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.froshRoom">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">isFroshRoom</span><span class="signature">(self, desiredRoom: <a href="#Room">roomdraw_backend.Room</a>) -&gt; bool</span>:
+            <span class="name">froshRoom</span><span class="signature">(self, desired_room: str) -&gt; bool</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isFroshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">froshRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determines if a desired room is reserved for freshman. </span>
 <span class="sd">        If so the student must complete, a frosh bump and choose a </span>
 <span class="sd">        valid room for the frosh to live in</span>
 <span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="c1"># Retrieves the desired_room from the database by calling getRoom(id: RoomId)</span>
+        <span class="c1"># Determine if the desired_room is reserved for freshman</span>
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
@@ -745,28 +807,36 @@ valid room for the frosh to live in</p>
 
 
                             </div>
-                            <div id="DrawLogic.isFroshBumpLegal" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.isFroshBumpLegal">#&nbsp;&nbsp</a>
+                            <div id="DrawLogic.froshBumpLegal" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawLogic.froshBumpLegal">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">isFroshBumpLegal</span><span class="signature">(self, bumpedRoom: <a href="#Room">roomdraw_backend.Room</a>) -&gt; bool</span>:
+            <span class="name">froshBumpLegal</span><span class="signature">(self, desired_room: str, proposed_room: str) -&gt; bool</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">isFroshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bumpedRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">froshBumpLegal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">,</span> <span class="n">proposed_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;  </span>
-<span class="sd">        Based on the rules of frosh bumping in the Room Draw Regulations</span>
-<span class="sd">        we can determine if a frosh bump is legal</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
+<span class="sd">        Determines if a frosh bump is legal by ensuring that the bumped room follows </span>
+<span class="sd">        Room Draw rules </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the desired_room and proposed_room from the database</span>
+        <span class="c1"># Determine if the desired_room is reserved for freshman</span>
+        <span class="c1"># Determine if the proposed_room is valid based on the Room Draw Rules:</span>
+        <span class="c1"># 1) Check which residence hall the proposed_room is in</span>
+        <span class="c1"># 2) Based on the residence hall, check to see if the proposed_room </span>
+        <span class="c1">#    is in the valid parameters of the Room Draw rules</span>
+        <span class="c1"># For example in Case, you are only able to bump frosh rooms to rooms in </span>
+        <span class="c1"># your desired L</span>
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Based on the rules of frosh bumping in the Room Draw Regulations
-we can determine if a frosh bump is legal</p>
+            <div class="docstring"><p>Determines if a frosh bump is legal by ensuring that the bumped room follows 
+Room Draw rules</p>
 </div>
 
 
@@ -784,54 +854,37 @@ we can determine if a frosh bump is legal</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DrawState</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Stores the total state of what goes on in the digital draw&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Returns the total state of what goes on in the digital draw.</span>
+<span class="sd">    Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># rooms is a dictionary with keys representing rooms and values </span>
-        <span class="c1"># representing the current user </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="kc">None</span>
     
-
-    <span class="k">def</span> <span class="nf">userAtRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; userAtRoom takes in a room and finds the user at that specific room. </span>
-<span class="sd">        Returns the student or None if there is no student. </span>
-<span class="sd">        Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+    <span class="k">def</span> <span class="nf">getUserIn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;getUserIn takes in a RoomId and finds the user at that specific room. </span>
+<span class="sd">        Returns the student or None if there is no student.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the room object from the database by calling getRoom (room:RoomId) </span>
+        <span class="c1"># Retrieves the user object from the database by calling getUserIn (room:Room) </span>
         <span class="k">return</span> <span class="kc">None</span>
-
     
-    <span class="k">def</span> <span class="nf">allRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the rooms the student can pull into</span>
+    <span class="k">def</span> <span class="nf">getRoomOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Room</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;getRoomOf takes in a UserId and finds the room the user is currently living in. </span>
+<span class="sd">        Returns the student or None if there is no student. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="c1"># Retrieves the user object from the database by calling getUser (id:UserId) </span>
+        <span class="c1"># Retrieves the room object from the database by calling getRoomOf (user:User) </span>
+        <span class="k">return</span> <span class="kc">None</span>
     
-    
-    <span class="k">def</span> <span class="nf">allRoomsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the possible rooms the student can pull into based</span>
-<span class="sd">        on the DrawLogic</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    
-    
-    <span class="k">def</span> <span class="nf">allResidenceHalls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allResidenceHalls returns all the residence halls the student can pull into</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
-    
-    
-    <span class="k">def</span> <span class="nf">allResidenceHallsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the possible residence halls the student can pull </span>
-<span class="sd">        into based on the DrawLogic</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="k">return</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">getProposedRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RoomId</span><span class="p">:</span>
+        <span class="c1"># Retrieves the proposed room for Frosh bump from the student</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Stores the total state of what goes on in the digital draw</p>
+            <div class="docstring"><p>Returns the total state of what goes on in the digital draw.
+Helps satisfiy requirement 7 in Digital Draw Application Requirements</p>
 </div>
 
 
@@ -845,9 +898,7 @@ we can determine if a frosh bump is legal</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># rooms is a dictionary with keys representing rooms and values </span>
-        <span class="c1"># representing the current user </span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">map</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="kc">None</span>
 </pre></div>
 
         </details>
@@ -855,134 +906,78 @@ we can determine if a frosh bump is legal</p>
     
 
                             </div>
-                            <div id="DrawState.userAtRoom" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawState.userAtRoom">#&nbsp;&nbsp</a>
+                            <div id="DrawState.getUserIn" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.getUserIn">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">userAtRoom</span><span class="signature">(self, room: <a href="#Room">roomdraw_backend.Room</a>) -&gt; <a href="#User">roomdraw_backend.User</a></span>:
+            <span class="name">getUserIn</span><span class="signature">(self, room: str) -&gt; <a href="#User">roomdraw_backend.User</a></span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">userAtRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; userAtRoom takes in a room and finds the user at that specific room. </span>
-<span class="sd">        Returns the student or None if there is no student. </span>
-<span class="sd">        Helps satisfiy requirement 7 in Digital Draw Application Requirements</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getUserIn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">User</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;getUserIn takes in a RoomId and finds the user at that specific room. </span>
+<span class="sd">        Returns the student or None if there is no student.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Retrieves the room object from the database by calling getRoom (room:RoomId) </span>
+        <span class="c1"># Retrieves the user object from the database by calling getUserIn (room:Room) </span>
         <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>userAtRoom takes in a room and finds the user at that specific room. 
-Returns the student or None if there is no student. 
-Helps satisfiy requirement 7 in Digital Draw Application Requirements</p>
+            <div class="docstring"><p>getUserIn takes in a RoomId and finds the user at that specific room. 
+Returns the student or None if there is no student.</p>
 </div>
 
 
                             </div>
-                            <div id="DrawState.allRooms" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawState.allRooms">#&nbsp;&nbsp</a>
+                            <div id="DrawState.getRoomOf" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.getRoomOf">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">allRooms</span><span class="signature">(self) -&gt; list[<a href="#Room">roomdraw_backend.Room</a>]</span>:
+            <span class="name">getRoomOf</span><span class="signature">(self, user: str) -&gt; <a href="#Room">roomdraw_backend.Room</a></span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allRooms</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the rooms the student can pull into</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getRoomOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Room</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;getRoomOf takes in a UserId and finds the room the user is currently living in. </span>
+<span class="sd">        Returns the student or None if there is no student. </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+        <span class="c1"># Retrieves the user object from the database by calling getUser (id:UserId) </span>
+        <span class="c1"># Retrieves the room object from the database by calling getRoomOf (user:User) </span>
+        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>allRooms returns all the rooms the student can pull into</p>
+            <div class="docstring"><p>getRoomOf takes in a UserId and finds the room the user is currently living in. 
+Returns the student or None if there is no student.</p>
 </div>
 
 
                             </div>
-                            <div id="DrawState.allRoomsPossible" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawState.allRoomsPossible">#&nbsp;&nbsp</a>
+                            <div id="DrawState.getProposedRoom" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#DrawState.getProposedRoom">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">allRoomsPossible</span><span class="signature">(self, student: <a href="#User">roomdraw_backend.User</a>) -&gt; list[<a href="#Room">roomdraw_backend.Room</a>]</span>:
+            <span class="name">getProposedRoom</span><span class="signature">(self, user: str) -&gt; str</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allRoomsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">Room</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the possible rooms the student can pull into based</span>
-<span class="sd">        on the DrawLogic</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">getProposedRoom</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RoomId</span><span class="p">:</span>
+        <span class="c1"># Retrieves the proposed room for Frosh bump from the student</span>
+        <span class="k">return</span> <span class="kc">None</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>allRooms returns all the possible rooms the student can pull into based
-on the DrawLogic</p>
-</div>
-
-
-                            </div>
-                            <div id="DrawState.allResidenceHalls" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawState.allResidenceHalls">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">allResidenceHalls</span><span class="signature">(self) -&gt; list[<a href="#ResidenceHall">roomdraw_backend.ResidenceHall</a>]</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allResidenceHalls</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allResidenceHalls returns all the residence halls the student can pull into</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[]</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>allResidenceHalls returns all the residence halls the student can pull into</p>
-</div>
-
-
-                            </div>
-                            <div id="DrawState.allResidenceHallsPossible" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawState.allResidenceHallsPossible">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">allResidenceHallsPossible</span><span class="signature">(
-    self,
-    student: <a href="#User">roomdraw_backend.User</a>
-) -&gt; list[<a href="#ResidenceHall">roomdraw_backend.ResidenceHall</a>]</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">allResidenceHallsPossible</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span> <span class="p">[</span><span class="n">ResidenceHall</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        allRooms returns all the possible residence halls the student can pull </span>
-<span class="sd">        into based on the DrawLogic</span>
-<span class="sd">        &quot;&quot;&quot;</span> 
-        <span class="k">return</span> <span class="p">[]</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>allRooms returns all the possible residence halls the student can pull 
-into based on the DrawLogic</p>
-</div>
-
+    
 
                             </div>
                 </section>
@@ -1003,27 +998,50 @@ into based on the DrawLogic</p>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="kc">None</span>
-    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        canPullInto takes in a student and a desiredRoom and returns </span>
 <span class="sd">        whether or not the student can pull into the room</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the desired_room is pullable from the DrawLogic class</span>
+        <span class="c1"># 1) Retrieve the student object (given the UserId argument) from the database </span>
+        <span class="c1"># 2) Determine the user that is present in the desired_room by calling </span>
+        <span class="c1">#    getUserIn(room: RoomId)</span>
+        <span class="c1"># 3) If there is a user in the room, then we compare priority numbers </span>
+        <span class="c1">#    of the two students and return the student with the highest priority </span>
+        <span class="c1"># 4) Determine if the desired_room is gender locked and if the gender of</span>
+        <span class="c1">#    the room matches the gender of the student</span>
+        <span class="c1"># 5) Determine if the room is a room reserved for frosh and if an</span>
+        <span class="c1">#    additional request for another room is necessary</span>
+        <span class="c1"># 6) Check if the proposed room is legal by calling </span>
+        <span class="c1">#    the froshBumpLegal(desired_room: RoomId, proposed_room: RoomId) function</span>
         <span class="k">return</span> <span class="kc">False</span>
     
-
-    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        pullInto takes in a student and a desiredRoom and pulls the student into a room. </span>
 <span class="sd">        Returns None if the action is completed and an Exception if the action fails.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) Checks if the desired_room is allowed to be pulled by the student</span>
+        <span class="c1"># 2) Call getUserIn (room: RoomId) to retrieve the previous user</span>
+        <span class="c1"># 3) If the desired_room is allowed to be pulled by the student and there </span>
+        <span class="c1"># was a previous student, then we set the previous user to no Room</span>
+        <span class="c1"># and the Room to no user. </span>
+        <span class="c1"># 4) Set the student to the desired_room and set the desired_room to the student</span>
         <span class="k">pass</span>
     
-
-    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        undoPullForStudent takes in a student and undos their pull. </span>
 <span class="sd">        Returns None if the action is completed and an Exception if the action fails</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) Set the student to no room by</span>
+        <span class="c1">#    1. Calling getRoomOf(user:UserId)</span>
+        <span class="c1">#    2. Calling getUser(id:UserId) </span>
+        <span class="c1">#    3. Calling setUserToRoom(user: User, room: Room)</span>
+        <span class="c1"># 2) Set the room to no user by</span>
+        <span class="c1">#    1. Calling setRoomToNoUser(room: Room) </span>
         <span class="k">pass</span>
 </pre></div>
 
@@ -1056,20 +1074,28 @@ into based on the DrawLogic</p>
 
         
             <span class="def">def</span>
-            <span class="name">canPullInto</span><span class="signature">(
-    self,
-    student: <a href="#User">roomdraw_backend.User</a>,
-    desiredRoom: <a href="#Room">roomdraw_backend.Room</a>
-) -&gt; bool</span>:
+            <span class="name">canPullInto</span><span class="signature">(self, student: str, desired_room: str) -&gt; bool</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">canPullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        canPullInto takes in a student and a desiredRoom and returns </span>
 <span class="sd">        whether or not the student can pull into the room</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the desired_room is pullable from the DrawLogic class</span>
+        <span class="c1"># 1) Retrieve the student object (given the UserId argument) from the database </span>
+        <span class="c1"># 2) Determine the user that is present in the desired_room by calling </span>
+        <span class="c1">#    getUserIn(room: RoomId)</span>
+        <span class="c1"># 3) If there is a user in the room, then we compare priority numbers </span>
+        <span class="c1">#    of the two students and return the student with the highest priority </span>
+        <span class="c1"># 4) Determine if the desired_room is gender locked and if the gender of</span>
+        <span class="c1">#    the room matches the gender of the student</span>
+        <span class="c1"># 5) Determine if the room is a room reserved for frosh and if an</span>
+        <span class="c1">#    additional request for another room is necessary</span>
+        <span class="c1"># 6) Check if the proposed room is legal by calling </span>
+        <span class="c1">#    the froshBumpLegal(desired_room: RoomId, proposed_room: RoomId) function</span>
         <span class="k">return</span> <span class="kc">False</span>
 </pre></div>
 
@@ -1086,20 +1112,22 @@ whether or not the student can pull into the room</p>
 
         
             <span class="def">def</span>
-            <span class="name">pullInto</span><span class="signature">(
-    self,
-    student: <a href="#User">roomdraw_backend.User</a>,
-    desiredRoom: <a href="#Room">roomdraw_backend.Room</a>
-) -&gt; None</span>:
+            <span class="name">pullInto</span><span class="signature">(self, student: str, desired_room: str)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">,</span> <span class="n">desiredRoom</span><span class="p">:</span> <span class="n">Room</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">pullInto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">,</span> <span class="n">desired_room</span><span class="p">:</span> <span class="n">RoomId</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        pullInto takes in a student and a desiredRoom and pulls the student into a room. </span>
 <span class="sd">        Returns None if the action is completed and an Exception if the action fails.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) Checks if the desired_room is allowed to be pulled by the student</span>
+        <span class="c1"># 2) Call getUserIn (room: RoomId) to retrieve the previous user</span>
+        <span class="c1"># 3) If the desired_room is allowed to be pulled by the student and there </span>
+        <span class="c1"># was a previous student, then we set the previous user to no Room</span>
+        <span class="c1"># and the Room to no user. </span>
+        <span class="c1"># 4) Set the student to the desired_room and set the desired_room to the student</span>
         <span class="k">pass</span>
 </pre></div>
 
@@ -1116,16 +1144,22 @@ Returns None if the action is completed and an Exception if the action fails.</p
 
         
             <span class="def">def</span>
-            <span class="name">undoPullForStudent</span><span class="signature">(self, student: <a href="#User">roomdraw_backend.User</a>) -&gt; None</span>:
+            <span class="name">undoPullForStudent</span><span class="signature">(self, student: str)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">undoPullForStudent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">UserId</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        undoPullForStudent takes in a student and undos their pull. </span>
 <span class="sd">        Returns None if the action is completed and an Exception if the action fails</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 1) Set the student to no room by</span>
+        <span class="c1">#    1. Calling getRoomOf(user:UserId)</span>
+        <span class="c1">#    2. Calling getUser(id:UserId) </span>
+        <span class="c1">#    3. Calling setUserToRoom(user: User, room: Room)</span>
+        <span class="c1"># 2) Set the room to no user by</span>
+        <span class="c1">#    1. Calling setRoomToNoUser(room: Room) </span>
         <span class="k">pass</span>
 </pre></div>
 
@@ -1133,79 +1167,6 @@ Returns None if the action is completed and an Exception if the action fails.</p
 
             <div class="docstring"><p>undoPullForStudent takes in a student and undos their pull. 
 Returns None if the action is completed and an Exception if the action fails</p>
-</div>
-
-
-                            </div>
-                </section>
-                <section id="DrawNotifier">
-                                <div class="attr class">
-        <a class="headerlink" href="#DrawNotifier">#&nbsp;&nbsp</a>
-
-        
-        <span class="def">class</span>
-        <span class="name">DrawNotifier</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">DrawNotifier</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Notifies a student that they have been bumped through email (using gmail API)&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kc">None</span>
-
-    <span class="k">def</span> <span class="nf">sendEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sends an email to a student if they have been bumped by a student with a better priority number.</span>
-<span class="sd">           Returns None if the email is sent and an Exception if the action fails</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Notifies a student that they have been bumped through email (using gmail API)</p>
-</div>
-
-
-                            <div id="DrawNotifier.__init__" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawNotifier.__init__">#&nbsp;&nbsp</a>
-
-        
-            <span class="name">DrawNotifier</span><span class="signature">()</span>
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="kc">None</span>
-</pre></div>
-
-        </details>
-
-    
-
-                            </div>
-                            <div id="DrawNotifier.sendEmail" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#DrawNotifier.sendEmail">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">sendEmail</span><span class="signature">(self, student: <a href="#User">roomdraw_backend.User</a>) -&gt; None</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>    <span class="k">def</span> <span class="nf">sendEmail</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">student</span><span class="p">:</span> <span class="n">User</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Sends an email to a student if they have been bumped by a student with a better priority number.</span>
-<span class="sd">           Returns None if the email is sent and an Exception if the action fails</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="kc">None</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Sends an email to a student if they have been bumped by a student with a better priority number.
-Returns None if the email is sent and an Exception if the action fails</p>
 </div>
 
 
