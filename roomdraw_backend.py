@@ -36,8 +36,6 @@ class Room:
     floor_number: int
     suite: str
     number: str
-    gender_locked: str
-    frosh_room: bool
 
 @dataclass
 class Floor:
@@ -64,7 +62,6 @@ class User:
     id: UserId
     first_name: str
     last_name: str
-    gender: str
     email: str
     class_year: str
     priority_number: int
@@ -82,8 +79,10 @@ class DrawLogic:
            Returns the student that has higher priority
         """
         # Retrieves the student1 and student2 object from the database
-        # Compares the class_year attribute of student 1 and student 2
+        # Compares the class_year attribute of student 1 and student 2 
+        # (Error-checking for valid class year)
         # Compares the priority_number attribute of student 1 and student 2
+        # (Error-checking for valid priority numbers)
         # Returns the student that has higher priority
         return False
     
@@ -92,47 +91,11 @@ class DrawLogic:
            Returns the student that has higher priority
         """
         # Compares the class_year attribute of student 1 and student 2
+        # (Error-checking for valid class year)
         # Compares the priority_number attribute of student 1 and student 2
+        # (Error-checking for valid priority numbers)
         # Returns the student that has higher priority
         return None
-
-
-    def genderLocked(self, desired_room:RoomId, student: UserId) -> bool:
-        """
-        Determines if a room is gender locked and if the student's gender
-        agrees with the gender lock
-        """
-        # Retrieves the desired_room and student object from the database
-        # Determine if the desired_room has a gender locked constraint from
-        # the gender_locked attribute
-        # Compare with the gender of the student  
-        return False
-    
-
-    def froshRoom(self, desired_room: RoomId) -> bool:
-        """
-        Determines if a desired room is reserved for freshman.
-        """ 
-        # Retrieves the desired_room from the database by calling getRoom(id: RoomId)
-        # Determine if the desired_room is reserved for freshman
-        return False
-    
-
-    def froshBumpLegal(self, desired_room: RoomId, proposed_room: RoomId) -> bool:
-        """  
-        Determines if a frosh bump is legal by ensuring that the bumped room follows 
-        Room Draw rules 
-        """
-        # Retrieves the desired_room and proposed_room from the database
-        # Determine if the desired_room is reserved for freshman
-        # Determine if the proposed_room is valid based on the Room Draw Rules:
-        # 1) Check which residence hall the proposed_room is in
-        # 2) Based on the residence hall, check to see if the proposed_room 
-        #    is in the valid parameters of the Room Draw rules
-        # For example in Case, you are only able to bump frosh rooms to rooms in 
-        # your desired L
-        return False
-
 
 class DrawState:
     """Returns the total state of what goes on in the digital draw.
@@ -141,24 +104,24 @@ class DrawState:
     def __init__(self):
         None
     
-    def getUserIn(self, room: RoomId) -> User:
+    def getUserIn(self, room: RoomId) -> Optional[User]:
         """getUserIn takes in a RoomId and finds the user at that specific room. 
         Returns the student or None if there is no student.
         """
         # Retrieves the room object from the database by calling getRoom (room:RoomId) 
+        # (Error-checking for making sure the room object is valid) 
         # Retrieves the user object from the database by calling getUserIn (room:Room) 
+        # (Error-checking for making sure the user object is valid) 
         return None
     
-    def getRoomOf(self, user: UserId) -> Room:
+    def getRoomOf(self, user: UserId) -> Optional[Room]:
         """getRoomOf takes in a UserId and finds the room the user is currently living in. 
         Returns the student or None if there is no student. 
         """
         # Retrieves the user object from the database by calling getUser (id:UserId) 
-        # Retrieves the room object from the database by calling getRoomOf (user:User) 
-        return None
-    
-    def getProposedRoom(self, user: UserId) -> RoomId:
-        # Retrieves the proposed room for Frosh bump from the student
+        # (Error-checking for making sure the user object is valid)
+        # Retrieves the room object from the database by calling getRoomOf (user:User)
+        # # (Error-checking for making sure the room object is valid) 
         return None
 
 class DrawAction:
@@ -175,16 +138,13 @@ class DrawAction:
         """
         # Check if the desired_room is pullable from the DrawLogic class
         # 1) Retrieve the student object (given the UserId argument) from the database 
+        # (Error-checking for making sure the user object is valid)
         # 2) Determine the user that is present in the desired_room by calling 
-        #    getUserIn(room: RoomId)
+        #    getUserIn(desired_room: RoomId)
+        # (Error-checking for making sure the user object is valid)
         # 3) If there is a user in the room, then we compare priority numbers 
         #    of the two students and return the student with the highest priority 
-        # 4) Determine if the desired_room is gender locked and if the gender of
-        #    the room matches the gender of the student
-        # 5) Determine if the room is a room reserved for frosh and if an
-        #    additional request for another room is necessary
-        # 6) Check if the proposed room is legal by calling 
-        #    the froshBumpLegal(desired_room: RoomId, proposed_room: RoomId) function
+        # (Error-checking for making sure the priority numbers are valid)
         return False
     
     def pullInto(self, student: UserId, desired_room: RoomId):
@@ -198,11 +158,11 @@ class DrawAction:
         # was a previous student, then we set the previous user to no Room
         # and the Room to no user. 
         # 4) Set the student to the desired_room and set the desired_room to the student
-        pass
+        return None
     
-    def undoPullForStudent(self, student: UserId):
+    def undoPull(self, student: UserId):
         """
-        undoPullForStudent takes in a student and undos their pull. 
+        undoPull takes in a student and undos their pull. 
         Returns None if the action is completed and an Exception if the action fails
         """
         # 1) Set the student to no room by
@@ -210,5 +170,6 @@ class DrawAction:
         #    2. Calling getUser(id:UserId) 
         #    3. Calling setUserToRoom(user: User, room: Room)
         # 2) Set the room to no user by
-        #    1. Calling setRoomToNoUser(room: Room) 
+        #    1. Calling setRoomToNoUser(room: Room)
+        # Error-checking for making sure there actually is a user in the room 
         pass
