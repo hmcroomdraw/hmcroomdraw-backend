@@ -5,7 +5,6 @@ HMC Room Draw Logic
 =====================
 The HMC Room Draw Logic processes digital draw rules, users, permissions, and 
 pulls.
-
 """
 
 from dataclasses import dataclass
@@ -19,7 +18,6 @@ ResidenceHallId = str
 
 @dataclass
 class Image:
-    
     url: str
     width: Pixel
     height: Pixel
@@ -34,6 +32,8 @@ class Room:
     floor_number: int
     suite: str
     number: str
+    gender_locked: str
+    frosh_room: bool
 
 @dataclass
 class Floor:
@@ -85,6 +85,33 @@ class DrawLogic:
         # (Error-checking for valid priority numbers)
         # Returns the student that has higher priority
         return None
+    
+    @staticmethod
+    def isRoomGenderLocked(self, desired_room: RoomId, student: UserId) -> bool:
+        """
+        Determines if a room is gender locked and if the student's gender agrees
+        with the gender lock
+        """
+        # Retrieves the desired_room and student object from the database
+        # Determine if the desired_room is gender_locked
+        # (Error-checking for the gender of the student)
+        # Compare with the gender of the student
+        return False
+
+    @staticmethod
+    def isFroshBumpLegal(self, desired_room: RoomId, proposed_room: RoomId) -> bool:
+        """
+        Determines if a frosh bump is legal by enusring that the bumped room follows
+        Room Draw rules
+        """
+        # Retrieves the desired_rom and proposed_room from the databse
+        # Determine if the desired_room is reserved for freshman
+        # Determine if the proposed_room is valid based on the Room Draw Rules:
+        # 1) Check which residence hall the proposed_room is in
+        # 2) Based on the residence hall, check to see if the proposed_room 
+        #    is in the valid parameters of the Room Draw rules (For example in Case, 
+        # you are only able to bump frosh rooms to rooms in your desired L)
+        return False
 
 class DrawAction:
     """
@@ -109,6 +136,9 @@ class DrawAction:
         #    of the two students and return True if the student that wants to
         #    pull into the room has higher priority 
         # (Error-checking for making sure the priority numbers are valid)
+        # 4) Determine if the desired_room is reserved for frosh (if so call the 
+        # bumpFrosh function)
+        # 5) Determine if the desired_room is gender locked by calling isRoomGenderLocked()
         return False
     
     def pullInto(self, student: UserId, desired_room: RoomId):
@@ -138,3 +168,46 @@ class DrawAction:
         #    3. Calling setUserToRoom(user: User, room: Room)
         # Error-checking for making sure there actually is a user in the room 
         pass
+
+    def canRoomBeGenderLocked(self, desired_room: RoomId) -> bool:
+        """
+        Determine if a room can be gender locked based on ASHMC rules and Room Draw regulations
+        """
+        # Retrieve the desired_room from the database
+        # Based on the residence hall and current gender lock status determine if the 
+        # room can be gender locked (if other genders are already in the suite then you cannot 
+        # gender lock the suite)
+        return False
+
+    def declareRoomGenderLocked(self, student: UserId, desired_room: RoomId):
+        """
+        declareRoomGenderLocked declares a room to be gender locked
+        Returns None if the action is completed and an Exception if the action fails
+        """
+        # Retreives the student object and desired_room object from the repository
+        # Retrieves the gender of the student
+        # Determines if the room can be gender locked by calling canRoomBeGenderLocked
+        # Sets the gender lock attribute of the room to the gender of the student
+        pass
+
+    def undoRoomGenderLocked(self, student: UserId, desired_room: RoomId):
+        """
+        undoRoomGenderLocked takes in a desired_room and turns gender locking off. 
+        This occurs when a student is bumped out of their room by someone with a higher priority number
+        Returns None if the action is completed and an Exception if the action fails
+        """
+        # Create a transaction by calling self.repository.create_transaction()
+        # Set the gender locking attribute of a room to None
+        # Error-checking for making sure the room is gender locked
+        pass
+
+    def bumpFrosh(self, student: UserId, desired_room: RoomId, proposed_room: RoomId):
+        """
+        bumpFrosh bumps a frosh out of the desired_room to a proposed_room
+        Returns None if the action is completed and an Exception if the action fails
+        """
+        # Retrieve the student, desired_room, and proposed_room from the database
+        # Determine if the frosh bump is valid by calling froshBumpLegal
+        # Change the frosh_room attribute of desired_room to False
+        # Change the frosh_room attribute of proposed_room to True
+        pass  
