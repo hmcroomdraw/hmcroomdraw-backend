@@ -1,86 +1,125 @@
 """
-HMC Room Draw Backend White Box Testing
+CS 181AA Software Engineering
+Author: Aditya Bhargava (HMC '23)
+HMC Room Draw Logic White Box Testing
 =====================
-CS181AA Software Engineering Class Project
-------------------------------------------
+The HMC Room Draw Logic White Box tests the implementation of the HMC Room 
+Draw Logic.
 """
 
-from roomdraw_backend import *
+from roomdraw_logic import *
 import unittest
 
 # There is no special set-up required before we run the tests
 class TestDrawLogic(unittest.TestCase):
     """
-    Tests the Room Draw Logic of the HMC Room Draw Backend
+    Tests the Room Draw Logic of the HMC Room Draw Backend using White Box testing
     """
-    def testComparePriority1(self):
+    def testComparePriority(self):
         """
-        testComparePriority tests the design of the 1st comparePriority function
+        testComparePriority makes sure
+        1) invalid student objects raise an error
+        2) invalid class_year attributes raise an error
+        3) invalid priority_number attributes raise an error
         """
-        # Pre-conditions are two student objects
-        # Santi and I will create a mock database that has the user and room objects
-        # Test the retrieval of student1 and student2 from the database 
-        # TypeError if student1 and student2 are null or not the right class 
-        # More test cases would include making sure the attributes of 
-        # class_year and priority_number are valid before comparing
-        # ValueError if class_year and priority_number are not the right values
+        pass
+    
+    def testisRoomGenderLocked(self):
+        """
+        testIsRoomGenderLocked makes sure
+        1) invalid room object raises an error
+        2) invalid gender_locked of desired_room attributes raise an error
+        """
         pass
 
-    def testComparePriority2(self):
+    def testDoesRoomMatchStudentGender(self):
         """
-        testComparePriority tests the design of the 2nd comparePriority function
-        """
-        # Same testing plan as above minus the need for checking the retrieval
+        No white box testing necessary"""
+        pass
 
-class TestDrawState(unittest.TestCase):
-    "Tests the DrawState class and the state of the digital draw"
-    def testGetUserIn(self):
+    def testIsFroshBumpLegal(self):
         """
-        testGetUserIn tests the design of the getUserIn function
+        testIsFroshBumpLegal makes sure
+        1) Invalid desired_room and proposed_room raises an error
+        2) Each room in the 9 dorms follow the right "path" when checking the 
+        proposed room
         """
-        # Pre-condition is one Room object and one User object
-        # Test the retrieval of student and class objects from the database 
-        # TypeError if the objects are null or not the right class
-    
-    def testGetRoomOf(self):
-        """
-        testGetRoomOf tests the design of the getRoomOf function
-        """
-        # Pre-condition is one Room object and one User object
-        # Test the retrieval of student and class objects from the database 
-        # TypeError if the objects are null or not the right class
+        pass
     
 class TestDrawAction(unittest.TestCase):
     """Tests the potential actions a user can utilize when using the Room Draw App"""
     def testCanPullInto(self):
         """
-        testCanPullInto tests the design of the canPullInto function
+        testCanPullInto makes sure
+        1) desired_room and student object is valid (right errors are raised if not valid)
+        2) priority numbers and year attributes are valid (right errors are raised if not valid)
+        3) the front-end API endpoint for the proposed room is only called 
+           when applicable
+        4) isFroshBumpLegal() is called when applicable
+        5) doesRoomMatchStudentGender() is called when applicable
         """
-        # Pre-conditions are one User object, one Room object, and  
-        # getUserIn is complete
-        # Test the retrieval of student objects from the database 
-        # TypeError if the objects are null or not the right class
-        # More test cases would include making sure the attributes of 
-        # class_year and priority_number are valid before comparing
-        # ValueError if class_year and priority_number are not the right values
+        pass
 
     def testPullInto(self):
         """
-        testPullInto tests the design of the PullInto function
+        testPullInto makes sure
+        1) canPullInto() is called
+        2) A transaction is created
+        3) Any previous students are set to no room
+        4) The current pullee has his/her room attribute set to the desired room
+        5) We exit the transaction 
         """
-        # Test the UserId and RoomId
-        # Pre-conditions are two User objects, one Room object, and DrawState is complete
-        # Test the setters and getters of room objects by actually testing the state
-        # of the dictionary in the Repo class   
+        pass
 
     
     def testUndoPull(self):
         """"
-        testUndoPull tests the design of the UndoPull function
+        testUndoPull makes sure
+        1) A transaction is created
+        2) The student undoing the pull is currently in the room
+        3) Set the student undoing the pull to no room
+        4) All the necessary functions are called
+        5) All necessary data and objects are valid
         """
-        # Test the ability of getRoomOf to withstand errors by actually testing the state
-        # of the dictionary in the Repo class
-        # Test for when the user has not pulled and is trying to undo their pull
+        pass
+    
+    def testCanRoomsBeGenderLocked(self):
+        """"
+        testCanRoomsBeGenderLocked makes sure
+        1) All the necessary functions are called
+        2) All necessary data and objects are valid
+        """
+        pass
+
+    def testDeclareRoomGenderLocked(self):
+        """
+        testDeclareRoomGenderLocked makes sure
+        1) All the necessary functions are called
+        2) All necessary data and objects are valid
+        3) A transaction is created
+        4) The room has its gender_locked status set to the gender of the user
+        """
+        pass
+    
+    def testUndoRoomGenderLocked(self):
+        """
+        testUndoRoomGenderLocked makes sure
+        1) All the necessary functions are called
+        2) All necessary data and objects are valid
+        3) A transaction is created
+        4) The room has its gender_locked status set to None
+        """
+        pass
+
+    def testBumpFrosh(self):
+        """
+        testBumpFrosh makes sure
+        1) All the necessary functions are called
+        2) All necessary data and objects are valid
+        3) frosh_room attribute of desired_room is set to False
+        4) frosh_room attribute of proposed_room is set to True
+        """
+        pass 
 
 
     
