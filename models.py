@@ -28,6 +28,16 @@ class Room:
     number: str
 
 @dataclass
+class FrontendRoom:
+    """A single room in a residential building."""
+    id: RoomId
+    residence_hall_name: str
+    floor_number: int
+    suite: str
+    number: str
+    current_occupant_name: str
+
+@dataclass
 class FloorPlan:
     """
     Contains the display information of a floor in a residential building.
@@ -53,3 +63,4 @@ class User:
     email: str
     class_year: str
     priority_number: int
+    gender: str
