@@ -1,6 +1,6 @@
 from markupsafe import escape
 from dataclasses import asdict
-from flask import Flask, jsonify
+from flask import Flask, jsonify, url_for
 
 from models import *
 
@@ -24,10 +24,53 @@ def get_residence_halls():
     all_residence_hall_ids = ["drinkward", "linde"]
     return jsonify(all_residence_hall_ids)
 
-@app.route('/capitalize/<word>/')
-def capitalize(word):
-    raise NotImplementedError()
-    return '<h1>{}</h1>'.format(escape(word.capitalize()))
+@app.route('/display/residence-hall/<string:residence_hall_id>/floors')
+def get_residence_hall(residence_hall_id):
+    room1 = Room(
+        id="room1",
+        residence_hall_name="drinkward",
+        floor_number=1,
+        suite=None,
+        number=1,
+    )
+    room2 = Room(
+        id="room2",
+        residence_hall_name="drinkward",
+        floor_number=1,
+        suite=None,
+        number=2,
+    )
+    floor1_image = Image(
+        url=url_for('static', filename="drinkward_floor1.png", _external=True),
+        width=2304,
+        height=1370,
+    )
+    room1_coord = Coordinate(
+        x=300,
+        y=1000,
+    )
+    room2_coord = Coordinate(
+        x=600,
+        y=1000,
+    )
+    floor1_coordinates = {
+        "room1": room1_coord,
+        "room2": room2_coord,
+    }
+    floor1 = FloorPlan(
+        id="drinkward-floor1",
+        residence_hall_name="drinkward",
+        floor_number=1,
+        rooms=[room1, room2],
+        image=floor1_image,
+        room_coordinates=floor1_coordinates
+    )
+    residence_hall = ResidenceHall(
+        id="drinkward",
+        name="drinkward",
+        floors=[floor1],
+    )
+    return asdict(residence_hall)
 
 if __name__ == "__main__":
     app.run()
