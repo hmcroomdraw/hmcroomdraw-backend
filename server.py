@@ -17,7 +17,7 @@ def login():
         priority_number=1,
         gender="male",
     )
-    return asdict(user)
+    return jsonify(user)
 
 @app.route('/display/residence-halls')
 def get_residence_halls():
@@ -70,7 +70,7 @@ def get_residence_hall(residence_hall_id):
         name="drinkward",
         floors=[floor1],
     )
-    return asdict(residence_hall)
+    return jsonify(residence_hall)
 
 @app.route("/display/user/<string:user_id>/get-available-rooms")
 def get_available_room_ids(user_id):
@@ -86,7 +86,7 @@ def display_room(room_id):
         suite=None,
         number=1,
     )
-    return asdict(room1)
+    return jsonify(room1)
 
 if __name__ == "__main__":
     app.run()
