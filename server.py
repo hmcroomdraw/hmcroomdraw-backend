@@ -21,8 +21,8 @@ def login():
 
 @app.route('/display/residence-halls')
 def get_residence_halls():
-    all_residence_halls = ["drinkward", "linde"]
-    return jsonify(all_residence_halls)
+    all_residence_hall_ids = ["drinkward", "linde"]
+    return jsonify(all_residence_hall_ids)
 
 @app.route('/capitalize/<word>/')
 def capitalize(word):
