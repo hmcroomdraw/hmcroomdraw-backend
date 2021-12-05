@@ -77,7 +77,16 @@ def get_available_room_ids(user_id):
     rooms_available_for_user_id = ["room1", "room2"]
     return jsonify(rooms_available_for_user_id)
 
-
+@app.route("/display/room/<string:room_id>")
+def display_room(room_id):
+    room1 = Room(
+        id="room1",
+        residence_hall_name="drinkward",
+        floor_number=1,
+        suite=None,
+        number=1,
+    )
+    return asdict(room1)
 
 if __name__ == "__main__":
     app.run()
