@@ -1,6 +1,6 @@
 from markupsafe import escape
 from dataclasses import asdict
-from flask import Flask, jsonify, url_for
+from flask import Flask, jsonify, url_for, request
 
 from models import *
 
@@ -79,6 +79,45 @@ def get_available_room_ids(user_id):
 
 @app.route("/display/room/<string:room_id>")
 def display_room(room_id):
+    room1 = Room(
+        id="room1",
+        residence_hall_name="drinkward",
+        floor_number=1,
+        suite=None,
+        number=1,
+    )
+    return jsonify(room1)
+
+@app.route("/user/pull-into/<string:room_id>")
+def pull_into(room_id):
+    return {}
+
+@app.route("/user/get-personal-info")
+def get_user():
+    """
+    in the real application, this should read authentication
+    token from the header
+    """
+    user = User(
+        id="USERID",
+        first_name="Santi",
+        last_name="Santichaivekin",
+        email="jsantichaivekin@g.hmc.edu",
+        class_year="senior",
+        priority_number=1,
+        gender="male",
+    )
+    return jsonify(user)
+
+@app.route("/user/update-personal-info", methods=["POST"])
+def update_user():
+    data = request.json
+    data["id"] = None
+    user = User(**data)
+    return jsonify(user)
+
+@app.route("/user/get-room-of/<string:user_id>")
+def get_room_of(user_id):
     room1 = Room(
         id="room1",
         residence_hall_name="drinkward",
