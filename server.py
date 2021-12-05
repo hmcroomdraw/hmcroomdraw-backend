@@ -1,6 +1,6 @@
 from markupsafe import escape
 from dataclasses import asdict
-from flask import Flask
+from flask import Flask, jsonify
 
 from models import *
 
@@ -19,9 +19,10 @@ def login():
     )
     return asdict(user)
 
-@app.route('/about/')
-def about():
-    return '<h3>This is a Flask web application.</h3>'
+@app.route('/display/residence-halls')
+def get_residence_halls():
+    all_residence_halls = ["drinkward", "linde"]
+    return jsonify(all_residence_halls)
 
 @app.route('/capitalize/<word>/')
 def capitalize(word):
