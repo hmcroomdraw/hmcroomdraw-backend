@@ -1,11 +1,23 @@
 from markupsafe import escape
+from dataclasses import asdict
 from flask import Flask
+
+from models import *
 
 app = Flask(__name__)
 
 @app.route('/login')
-def hello():
-    return '<h1>Hello, World!</h1>'
+def login():
+    user = User(
+        id="USERID",
+        first_name="Santi",
+        last_name="Santichaivekin",
+        email="jsantichaivekin@g.hmc.edu",
+        class_year="senior",
+        priority_number=1,
+        gender="male",
+    )
+    return asdict(user)
 
 @app.route('/about/')
 def about():
