@@ -72,5 +72,12 @@ def get_residence_hall(residence_hall_id):
     )
     return asdict(residence_hall)
 
+@app.route("/display/user/<string:user_id>/get-available-rooms")
+def get_available_room_ids(user_id):
+    rooms_available_for_user_id = ["room1", "room2"]
+    return jsonify(rooms_available_for_user_id)
+
+
+
 if __name__ == "__main__":
     app.run()
