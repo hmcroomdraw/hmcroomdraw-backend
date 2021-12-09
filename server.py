@@ -4,6 +4,8 @@ from flask import Flask, jsonify, url_for, request
 
 from models import *
 
+import repository
+
 app = Flask(__name__)
 
 @app.route('/login')
@@ -17,6 +19,8 @@ def login():
         priority_number=1,
         gender="male",
     )
+    repo = repository.Repository()
+    user = repo.get_user("1")
     return jsonify(user)
 
 @app.route('/display/residence-halls')

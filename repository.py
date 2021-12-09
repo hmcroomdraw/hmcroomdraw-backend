@@ -38,23 +38,46 @@ The SQL queries will be managed by SQLAlchamy.
 from models import *
 from typing import Optional
 
+from server import app
+from flask import g
+import sqlite3
+
+import pathlib
+
+DATABASE = './database.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+def init_db():
+    pathlib.Path('./database.db').unlink(missing_ok=True)
+    with app.app_context():
+        db = get_db()
+        with app.open_resource('initial.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
 class Repository:
-    def __init__(self, in_memory_only=False):
+    def __init__(self, in_memory_only=True):
         """
         Initialize the repository from the remote database.
         If in_memory_only is True, create an empty repository that operates
         solely in-memory.
         Raise DatabaseConnectionError if cannot connect to database.
         """
-        # Try to connect to the remote database.
-        # If connection fails, raise an error.
-
-        # Try to connect to the local in-memory database.
-        # If connection fails, raise an error.
-
-        # Clear the in-memory database.
-        # Copy the content from the remote database to the in-memory database.
-        pass
+        if not in_memory_only:
+            raise NotImplementedError()
+        
+        self.cursor = get_db().cursor()
 
     def get_user(self, id: UserId) -> User:
         """
@@ -63,7 +86,11 @@ class Repository:
         Raise DatabaseConnectionError if cannot connect to database.
         """
         # Read user from in-memory database.
-        pass
+        cursor = self.cursor
+        cursor.execute('select * from users where id = ?', ('1',))
+        result = cursor.fetchall()[0]
+        print(result)
+        return User(*result)
 
     def get_room(self, id: RoomId) -> Room:
         """
