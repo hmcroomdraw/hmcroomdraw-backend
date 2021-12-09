@@ -4,9 +4,8 @@ from flask import Flask, jsonify, url_for, request
 
 from models import *
 
+from app import app
 import repository
-
-app = Flask(__name__)
 
 @app.route('/login')
 def login():

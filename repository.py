@@ -38,7 +38,7 @@ The SQL queries will be managed by SQLAlchamy.
 from models import *
 from typing import Optional
 
-from server import app
+from app import app
 from flask import g
 import sqlite3
 
