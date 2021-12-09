@@ -78,3 +78,68 @@ once with in_memory_only set to True and once set to False.
       time.
     - Repeat this test concept with the User <-> Room map.
 """
+from app import app
+from models import User
+from repository import get_db, Repository
+import unittest
+
+import pathlib
+
+class TestRepositoryGetMinimal(unittest.TestCase):
+    """
+    Create one User, one Room, one FloorPlan, and one ResidenceHall.
+    Put the user to the room. Check that all the get/modify requests
+    work correctly.
+    """
+
+    DATBASE_TEST_FILE = './test_database.db'
+    DATABASE_SCHEMA = './schema.sql'
+    DATABASE_INITIAL = './initial_minimal.sql'
+
+    def setUp(self):
+        """
+        Create an empty database and populate it according to
+        DATABASE_INITIAL sql file.
+        """
+        # remove database test file
+        pathlib.Path(self.DATBASE_TEST_FILE).unlink(missing_ok=True)
+
+        # enter the application context
+        self.app_ctx = app.app_context()
+        self.app_ctx.__enter__()
+
+        # create a new database test file at the same location
+        db = get_db(self.DATBASE_TEST_FILE)
+        with app.open_resource(self.DATABASE_SCHEMA, mode='r') as f:
+            db.cursor().executescript(f.read())
+        with app.open_resource(self.DATABASE_INITIAL, mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
+        # set repository to read/write to the test file
+        self.repo = Repository(db_path=self.DATBASE_TEST_FILE)
+
+    def tearDown(self):
+        """
+        Remove database created by setUp.
+        """
+        # remove database test file
+        pathlib.Path(self.DATBASE_TEST_FILE).unlink(missing_ok=True)
+        # exit the application context and clean up
+        self.app_ctx.__exit__(None, None, None)
+
+    def test_get_user(self):
+        expected = User(
+            id="1",
+            first_name="Adi",
+            last_name="B",
+            email="adib@g.hmc.edu",
+            class_year="junior",
+            priority_number=1,
+            gender="male",
+        )
+        actual = self.repo.get_user("1")
+        self.assertEqual(actual, expected)
+
+if __name__ == '__main__':
+    unittest.main()

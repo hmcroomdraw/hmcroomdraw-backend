@@ -46,10 +46,10 @@ import pathlib
 
 DATABASE = './database.db'
 
-def get_db():
+def get_db(db_path):
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
+        db = g._database = sqlite3.connect(db_path)
     return db
 
 @app.teardown_appcontext
@@ -58,8 +58,8 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-def init_db():
-    pathlib.Path('./database.db').unlink(missing_ok=True)
+def init_db(db_path=DATABASE):
+    pathlib.Path(db_path).unlink(missing_ok=True)
     with app.app_context():
         db = get_db()
         with app.open_resource('initial.sql', mode='r') as f:
@@ -67,7 +67,7 @@ def init_db():
         db.commit()
 
 class Repository:
-    def __init__(self, in_memory_only=True):
+    def __init__(self, in_memory_only=True, db_path=DATABASE):
         """
         Initialize the repository from the remote database.
         If in_memory_only is True, create an empty repository that operates
@@ -77,7 +77,7 @@ class Repository:
         if not in_memory_only:
             raise NotImplementedError()
         
-        self.cursor = get_db().cursor()
+        self.cursor = get_db(db_path).cursor()
 
     def get_user(self, id: UserId) -> User:
         """
@@ -89,7 +89,6 @@ class Repository:
         cursor = self.cursor
         cursor.execute('select * from users where id = ?', ('1',))
         result = cursor.fetchall()[0]
-        print(result)
         return User(*result)
 
     def get_room(self, id: RoomId) -> Room:
