@@ -87,7 +87,7 @@ class Repository:
         """
         # Read user from in-memory database.
         cursor = self.cursor
-        cursor.execute('select * from users where id = ?', ('1',))
+        cursor.execute('select * from users where id = ?', (id,))
         result = cursor.fetchall()[0]
         return User(*result)
 
