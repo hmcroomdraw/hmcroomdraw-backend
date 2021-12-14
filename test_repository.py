@@ -1,6 +1,21 @@
 """
 Repository Test
 ===============
+
+Note: Working with database libraries are more complicated than I (Santi)
+thought, so I could only finish a few functions in the repository component.
+Furthermore, as I noticed I could not finish the component as specified on time,
+I tried to implement something that is simpler but should work for the demo.
+However, I couldn't finish that either.
+
+The current test initializes the database with tables in the schema and add one
+row to each of the table to test basic get element from id functionalities.
+
+The following description is the previous design that was planned to be
+implemented. The code does not reflect this design.
+
+---
+
 Use python unitest framework to automate the tests. All of the tests will run
 once with in_memory_only set to True and once set to False.
 
