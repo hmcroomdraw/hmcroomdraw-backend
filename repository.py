@@ -110,7 +110,10 @@ class Repository:
         raise KeyError(id)
 
     def get_all_room_ids(self) -> list[RoomId]:
-        pass
+        cursor = self.cursor
+        cursor.execute('select id from rooms')
+        results = cursor.fetchall()
+        return [tup[0] for tup in results]
 
     def get_all_rooms(self) -> list[Room]:
         pass
