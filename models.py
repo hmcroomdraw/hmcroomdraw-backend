@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 Pixel = int
 
 UserId = str
@@ -18,28 +19,25 @@ class Coordinate:
     y: int
 
 @dataclass
-class User:
-    id: UserId
-    first_name: str
-    last_name: str
-    email: str
-    class_year: int
-    priority_number: int
-    gender: str
-    #RoomId: RoomId
-
-@dataclass
 class Room:
-    """
-    A single room in a residential building.
-    """
+    """A single room in a residential building."""
     id: RoomId
     residence_hall_name: str
     floor_number: int
     suite: str
-    number: int
-    #gender: str
-    #frosh_room: bool
+    number: str
+
+@dataclass
+class FrontendRoom:
+    """A single room in a residential building."""
+    id: RoomId
+    residence_hall_name: str
+    floor_number: int
+    suite: str
+    number: str
+    current_occupant_name: str
+    # gender: str
+    # frosh_room: bool
 
 @dataclass
 class FloorPlan:
@@ -58,3 +56,13 @@ class ResidenceHall:
     id: ResidenceHallId
     name: str
     floors: list[FloorPlan]
+
+@dataclass
+class User:
+    id: UserId
+    first_name: str
+    last_name: str
+    email: str
+    class_year: str
+    priority_number: int
+    gender: str
