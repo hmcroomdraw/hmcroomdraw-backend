@@ -26,13 +26,17 @@ cd hmcroomdraw-backend
 ```bash
 pipenv install
 ```
-
-## Run the server
-1. Every time you restart the terminal, you have to enter the virtual environment before you can run the server.
+7. Every time you restart the terminal, you have to enter the virtual environment before you can run the server.
 ```bash
 pipenv shell
 ```
-2. Run the server
+
+Run the tests
+```
+python -m unittest
+```
+
+## Run the server
 ```
 python server.py
 ```
