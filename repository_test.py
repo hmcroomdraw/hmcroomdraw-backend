@@ -160,5 +160,10 @@ class TestRepositoryGetMinimal(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.repo.get_room("room_id_not_in_db")
 
+    def test_get_all_room_ids(self):
+        expected = ["room1"]
+        actual = self.repo.get_all_room_ids()
+        self.assertEqual(actual, expected)
+    
 if __name__ == '__main__':
     unittest.main()
