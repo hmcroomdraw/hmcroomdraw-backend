@@ -72,8 +72,10 @@ def close_connection(exception):
 def init_db(db_path=DATABASE):
     pathlib.Path(db_path).unlink(missing_ok=True)
     with app.app_context():
-        db = get_db()
-        with app.open_resource('initial.sql', mode='r') as f:
+        db = get_db(db_path)
+        with app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        with app.open_resource('initial_minimal.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
 

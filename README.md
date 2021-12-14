@@ -31,9 +31,14 @@ pipenv install
 pipenv shell
 ```
 
-Run the tests
+## Run the tests
 ```
 python -m unittest
+```
+
+## Initialize the database
+```
+python -c "import repository; repository.init_db()"
 ```
 
 ## Run the server
