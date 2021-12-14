@@ -7,3 +7,12 @@ CREATE TABLE Users (
     priority_number INT,
     gender TEXT
 );
+
+CREATE TABLE Rooms (
+    id TEXT PRIMARY KEY,
+    residence_hall_name TEXT,
+    floor_number INT,
+    suite TEXT,
+    room_number TEXT
+);
+

@@ -98,7 +98,10 @@ class Repository:
         Raise DatabaseConnectionError if cannot connect to database.
         """
         # Read room from in-memory database.
-        pass
+        cursor = self.cursor
+        cursor.execute('select * from rooms where id = ?', (id,))
+        result = cursor.fetchall()[0]
+        return Room(*result)
 
     def get_all_room_ids(self) -> list[RoomId]:
         pass
