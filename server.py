@@ -28,6 +28,61 @@ def get_residence_halls():
     return jsonify(all_residence_hall_ids)
 
 @app.route('/display/residence-hall/<string:residence_hall_id>/floors')
+def get_residence_hall_for_demo(residence_hall_id):
+    """
+    Because our frontend code finds it hard to parse a dict of room coordinates,
+    we send the frontend a list instead. See room_coordinates field in the
+    json string.
+    """
+    result = """
+        {
+        "floors": [
+            {
+            "floor_number": 1,
+            "id": "drinkward-floor1",
+            "image": {
+                "height": 1370,
+                "url": "http://127.0.0.1:5000/static/drinkward_floor1.png",
+                "width": 2304
+            },
+            "residence_hall_name": "drinkward",
+            "room_coordinates": [
+                {
+                "room": "room1",
+                "x": 300,
+                "y": 1000
+                },
+                {
+                "room": "room2",
+                "x": 600,
+                "y": 1000
+                }
+            ],
+            "rooms": [
+                {
+                "floor_number": 1,
+                "id": "room1",
+                "number": 1,
+                "residence_hall_name": "drinkward",
+                "suite": null
+                },
+                {
+                "floor_number": 1,
+                "id": "room2",
+                "number": 2,
+                "residence_hall_name": "drinkward",
+                "suite": null
+                }
+            ]
+            }
+        ],
+        "id": "drinkward",
+        "name": "drinkward"
+        }
+        """
+    return jsonify(result)
+
+# @app.route('/display/residence-hall/<string:residence_hall_id>/floors')
 def get_residence_hall(residence_hall_id):
     room1 = Room(
         id="room1",
