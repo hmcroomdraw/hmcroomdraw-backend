@@ -165,5 +165,16 @@ class TestRepositoryGetMinimal(unittest.TestCase):
         actual = self.repo.get_all_room_ids()
         self.assertEqual(actual, expected)
     
+    def test_get_all_rooms(self):
+        expected = [Room(
+            id="room1",
+            residence_hall_name="drinkward",
+            floor_number=1,
+            suite=None,
+            number="121",
+        )]
+        actual = self.repo.get_all_rooms()
+        self.assertEqual(actual, expected)
+
 if __name__ == '__main__':
     unittest.main()
