@@ -116,7 +116,10 @@ class Repository:
         return [tup[0] for tup in results]
 
     def get_all_rooms(self) -> list[Room]:
-        pass
+        cursor = self.cursor
+        cursor.execute('select * from rooms')
+        results = cursor.fetchall()
+        return [Room(*tup) for tup in results]
 
     def get_floor_plan(self, id: FloorPlanId) -> FloorPlan:
         pass
