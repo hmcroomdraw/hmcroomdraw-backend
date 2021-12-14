@@ -140,6 +140,10 @@ class TestRepositoryGetMinimal(unittest.TestCase):
         )
         actual = self.repo.get_user("1")
         self.assertEqual(actual, expected)
+    
+    def test_get_user_not_found(self):
+        with self.assertRaises(KeyError):
+            self.repo.get_user("user_id_not_in_db")
 
     def test_get_room(self):
         expected = Room(
@@ -151,6 +155,10 @@ class TestRepositoryGetMinimal(unittest.TestCase):
         )
         actual = self.repo.get_room("room1")
         self.assertEqual(actual, expected)
+
+    def test_get_room_not_found(self):
+        with self.assertRaises(KeyError):
+            self.repo.get_room("room_id_not_in_db")
 
 if __name__ == '__main__':
     unittest.main()
