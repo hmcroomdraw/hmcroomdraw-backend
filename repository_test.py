@@ -79,7 +79,7 @@ once with in_memory_only set to True and once set to False.
     - Repeat this test concept with the User <-> Room map.
 """
 from app import app
-from models import User
+from models import User, Room
 from repository import get_db, Repository
 import unittest
 
@@ -139,6 +139,17 @@ class TestRepositoryGetMinimal(unittest.TestCase):
             gender="male",
         )
         actual = self.repo.get_user("1")
+        self.assertEqual(actual, expected)
+
+    def test_get_room(self):
+        expected = Room(
+            id="room1",
+            residence_hall_name="drinkward",
+            floor_number=1,
+            suite=None,
+            number="121",
+        )
+        actual = self.repo.get_room("room1")
         self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
