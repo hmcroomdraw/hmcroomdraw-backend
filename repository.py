@@ -2,6 +2,17 @@
 Repository
 ==========
 
+Note: Working with database libraries are more complicated than I (Santi)
+thought, so I could only finish a few functions in the repository component.
+Furthermore, as I noticed I could not finish the component as specified on time,
+I tried to implement something that is simpler but should work for the demo.
+However, I couldn't finish that either.
+
+The following description is the previous design that was planned to be
+implemented. The code does not reflect this design.
+
+---
+
 The repository stores all persistent information of the application in one
 place. It stores one copy of data as in memory, and stores another copy in a 
 remote SQL database. When the user wants to read data, the repository returns a
@@ -20,7 +31,7 @@ with repository.create_transaction() as transaction:
     if current_room.id == room1_id:
         transaction.set_user_to_room(user_id, room2_id)
 
-We will use SQLite MEMORY storage for the in-memory database. We planned to use
+We will use MySQL MEMORY storage for the in-memory database. We planned to use
 python objects and locks, but because python web servers create a new process
 for each request (due to CPython's global interpreter lock), we cannot use locks
 in the thread level to share memory across processes. The MEMORY storage can
@@ -29,7 +40,7 @@ this is a good trade-off since our application is write heavy. (In a real
 application, we have to perform a performance test to see whether this is the
 right choice.)
 
-For the presistent remote database, we will also use SQLite so that we don't
+For the presistent remote database, we will also use MySQL so that we don't
 have to work with mutiple types of databases.
 
 The SQL queries will be managed by SQLAlchamy.
@@ -67,23 +78,16 @@ def init_db(db_path=DATABASE):
         db.commit()
 
 class Repository:
-    def __init__(self, in_memory_only=True, db_path=DATABASE):
+    def __init__(self, db_path=DATABASE):
         """
-        Initialize the repository from the remote database.
-        If in_memory_only is True, create an empty repository that operates
-        solely in-memory.
-        Raise DatabaseConnectionError if cannot connect to database.
+        Initialize the repository from the given file.
         """
-        if not in_memory_only:
-            raise NotImplementedError()
-        
         self.cursor = get_db(db_path).cursor()
 
     def get_user(self, id: UserId) -> User:
         """
         Get a copy of User from UserId.
         Raise KeyError if id does not exist.
-        Raise DatabaseConnectionError if cannot connect to database.
         """
         # Read user from in-memory database.
         cursor = self.cursor
@@ -98,7 +102,6 @@ class Repository:
         """
         Get a copy of Room from RoomId.
         Raise KeyError if id does not exist.
-        Raise DatabaseConnectionError if cannot connect to database.
         """
         # Read room from in-memory database.
         cursor = self.cursor
