@@ -88,8 +88,11 @@ class Repository:
         # Read user from in-memory database.
         cursor = self.cursor
         cursor.execute('select * from users where id = ?', (id,))
-        result = cursor.fetchall()[0]
-        return User(*result)
+        results = cursor.fetchall()
+        if results:
+            result = results[0]
+            return User(*result)
+        raise KeyError(id)
 
     def get_room(self, id: RoomId) -> Room:
         """
@@ -100,8 +103,11 @@ class Repository:
         # Read room from in-memory database.
         cursor = self.cursor
         cursor.execute('select * from rooms where id = ?', (id,))
-        result = cursor.fetchall()[0]
-        return Room(*result)
+        results = cursor.fetchall()
+        if results:
+            result = results[0]
+            return Room(*result)
+        raise KeyError(id)
 
     def get_all_room_ids(self) -> list[RoomId]:
         pass
