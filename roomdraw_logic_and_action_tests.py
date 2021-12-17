@@ -27,9 +27,9 @@ class test_compare_priority(unittest.TestCase):
         # User2 is returned because he graduates earlier
         self.assertEqual(DrawLogic.compare_priority(User1,User2),User2)
     
-    def test_compare_priority2(self):
+    def test_compare_priority_2(self):
         """
-        test_compare_priority2 tests the implementation 
+        test_compare_priority_2 tests the implementation 
         of the compare_priority function with 
         different graduation years and same priority numbers 
         """
@@ -38,9 +38,9 @@ class test_compare_priority(unittest.TestCase):
         # User1 is returned because he graduates earlier
         self.assertEqual(DrawLogic.compare_priority(User1,User3),User1)
 
-    def test_compare_priority3(self):
+    def test_compare_priority_3(self):
         """
-        test_compare_priority3 tests the implementation 
+        test_compare_priority_3 tests the implementation 
         of the compare_priority function with 
         same graduation year and different priority number
         """
