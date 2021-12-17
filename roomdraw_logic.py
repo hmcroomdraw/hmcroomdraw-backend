@@ -26,7 +26,7 @@ class DrawLogic:
         elif user1.class_year > user2.class_year:
             return user2
         else:
-            # compares the priority_number attribute of user1 and user2
+        # compares the priority_number attribute of user1 and user2
             if user1.priority_number > user2.priority_number:
                 return user2
             else:
