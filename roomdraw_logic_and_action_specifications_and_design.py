@@ -6,6 +6,7 @@ HMC Room Draw Logic and Action Specifications and Design
 The HMC Room Draw Logic and Action processes digital draw rules, 
 users, permissions, and pulls
 """
+# models provides useful objects for HMC Room Draw Logic and Action
 from models import *
 from dataclasses import dataclass
 from typing import Optional
