@@ -1,7 +1,7 @@
 # HMC Room Draw Logic and Action
 Enforces the logic functions of HMC Room Draw and performs the actions a user can do in HMC Room Draw
 ## Table of Contents
-1. [models.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/models.py)- models.py provides useful data classes for RoomDraw Logic and Action
+1. [models.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/models.py)- models.py provides data classes for RoomDraw Logic and Action
 1. [roomdraw_logic_and_action.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action.py)-Final Code
 2. [roomdraw_logic_and_action_specifications_and_design.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_specifications_and_design.py)-Specifications and Design
 3. [roomdraw_logic_and_action_testing_plan.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_testing_plan.py)-Testing Plan
