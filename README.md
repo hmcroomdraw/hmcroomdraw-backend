@@ -25,6 +25,6 @@ cd hmcroomdraw-backend
 ```
 5. Run tests
 ```bash
-python3.10 roomdraw_logic_and_action_tests.py
+python3.10 -m unittest roomdraw_logic_and_action_tests -v
 ```
 
