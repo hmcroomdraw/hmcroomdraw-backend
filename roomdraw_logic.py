@@ -99,7 +99,6 @@ class DrawAction:
         genders = []
         for user in desired_room.users:
             genders.append(user.gender)
-        
         # determines if all the genders are the same
         return len(set(genders)) == 1
 
@@ -121,8 +120,7 @@ class DrawAction:
                 desired_room.users.append(user)
             
             else:
-                # desired_room is over capacity so we reset users and gender
-                # locking
+                # desired_room is over capacity so we reset users and gender locking
                 desired_room.users = [user]
                 DrawAction.undo_gender_locking(user,desired_room)
     
@@ -132,12 +130,11 @@ class DrawAction:
         undo_pull takes in a user and undos their pull if they are 
         a current user in the room.
         """
-        if room != None and room.users != None:
-            if user in room.users:
-                room.users.remove(user)
-                # undoes gender locking if no one is in the room
-                if room.users == []:
-                    room.gender = None
+        if room != None and room.users != None and user in room.users:
+            room.users.remove(user)
+            # undoes gender locking if no one is in the room
+            if room.users == []:
+                room.gender = None
     
     @staticmethod
     def declare_gender_locking(user: User, desired_room: Room):
@@ -166,6 +163,5 @@ class DrawAction:
         if desired_room.frosh_room and DrawLogic.is_frosh_bump_legal(desired_room,proposed_room):
                 # desired__room is not reserved for frosh anymore
                 desired_room.frosh_room = False
-                
                 # proposed__room is reserved for frosh
                 proposed_room.frosh_room = True
