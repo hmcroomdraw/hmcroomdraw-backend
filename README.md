@@ -1,7 +1,9 @@
 # HMC Room Draw Logic and Action
 Enforces the logic functions of HMC Room Draw and performs the actions a user can do in HMC Room Draw
 ## Table of Contents
-1. [https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action.py](Yuh)
+1. [roomdraw_logic_and_action.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action.py)
+2. [roomdraw_logic_and_action_specifications_and_design.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_specifications_and_design.py)
+3. 
 ## Testing
 1. Install Homebrew
 ```bash
