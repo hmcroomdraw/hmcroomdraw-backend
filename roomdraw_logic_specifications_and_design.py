@@ -13,6 +13,9 @@ from typing import Optional
 class DrawLogic:
     """
     performs the logic functions of HMC Room Draw
+    satisifies requirment 3 as the application
+    understands and implements pull action logic
+    with automatic validation
     """
     @staticmethod
     def compare_priority(user1:User, user2:User) -> User:
@@ -56,6 +59,8 @@ class DrawLogic:
 class DrawAction:
     """
     actions a user can perform in HMC Room Draw
+    satsifies requirement 2 as this application supports pulling and having
+    many users in a room
     """
     @staticmethod
     def can_pull_into(desired_room: Room, proposed_room: Room, user: User) -> bool:
@@ -95,6 +100,7 @@ class DrawAction:
         # desired_room is over capacity
             # Update the users in the room to the user
             # Undo gender locking
+        pass
     
     @staticmethod
     def undo_pull(user: User, room: Room):
@@ -106,6 +112,7 @@ class DrawAction:
             # checks if the user is a current user of the room
                 # removes user from the users attribute of room
                 # undoes gender locking if no one is in the room
+        pass
     
     @staticmethod
     def declare_gender_locking(user: User, desired_room: Room):
@@ -115,6 +122,7 @@ class DrawAction:
         """
         # determine if room can be gender locked and if the user is a current user 
             # set room of gender to user gender
+        pass
     
     @staticmethod
     def undo_gender_locking(user: User, desired_room: Room):
@@ -124,6 +132,7 @@ class DrawAction:
         """
         # checks if the user is a current user of the desired_room
             # sets the gender of the desired_room to None
+        pass
             
     @staticmethod
     def bump_frosh(desired_room: Room, proposed_room: Room):
@@ -134,3 +143,4 @@ class DrawAction:
             # checks if the proposed_room is valid
                 # set the desired_room frosh_room status to False
                 # set the desired_room frosh_room status to True
+        pass

@@ -3,8 +3,8 @@ CS 181AA Software Engineering
 Author: Aditya Bhargava (HMC '23)
 HMC Room Draw Logic Black Box Testing
 =====================
-The HMC Room Draw Logic Black Box tests the 
-functionality and design specifications of the HMC Room Draw Logic.
+The HMC Room Draw Logic tests the functionality, design specifications, and 
+implementation of the HMC Room Draw Logic.
 """
 
 from roomdraw_logic import *
