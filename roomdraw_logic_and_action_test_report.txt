@@ -1,0 +1,94 @@
+test_compare_priority_1 (roomdraw_logic_and_action_tests.test_compare_priority)
+different graduation years and different priority numbers ... ok
+test_compare_priority_2 (roomdraw_logic_and_action_tests.test_compare_priority)
+different graduation years and same priority numbers ... ok
+test_compare_priority_3 (roomdraw_logic_and_action_tests.test_compare_priority)
+same graduation year and different priority number ... ok
+test_is_room_gender_locked_1 (roomdraw_logic_and_action_tests.test_is_room_gender_locked)
+room is gender locked ... ok
+test_is_room_gender_locked_2 (roomdraw_logic_and_action_tests.test_is_room_gender_locked)
+room is not gender locked ... ok
+test_does_gender_of_room_match_1 (roomdraw_logic_and_action_tests.test_does_gender_of_room_match)
+room is not gender locked ... ok
+test_does_gender_of_room_match_2 (roomdraw_logic_and_action_tests.test_does_gender_of_room_match)
+room is gender locked and matches the gender of the user ... ok
+test_does_gender_of_room_match_3 (roomdraw_logic_and_action_tests.test_does_gender_of_room_match)
+room is gender locked but does not match the gender of the user ... ok
+test_is_frosh_bump_legal_1 (roomdraw_logic_and_action_tests.test_is_frosh_bump_legal)
+desired_room is not a frosh room ... ok
+test_is_frosh_bump_legal_2 (roomdraw_logic_and_action_tests.test_is_frosh_bump_legal)
+desired_room is a frosh room and the proposed_room is a valid room in Case ... ok
+test_is_frosh_bump_legal_3 (roomdraw_logic_and_action_tests.test_is_frosh_bump_legal)
+desired_room that is a frosh room and the proposed_room is in another dorm ... ok
+test_is_frosh_bump_legal_4 (roomdraw_logic_and_action_tests.test_is_frosh_bump_legal)
+desired_room is a frosh room and the proposed_room is being reserved for frosh ... ok
+test_is_frosh_bump_legal_5 (roomdraw_logic_and_action_tests.test_is_frosh_bump_legal)
+desired_room is a frosh_room and the proposed_room is being reserved for frosh ... ok
+test_can_pull_into_1 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into an empty room ... ok
+test_can_pull_into_10 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a room that is full (the user pulling into the room ... ok
+test_can_pull_into_2 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into an empty room that is reserved for frosh. ... ok
+test_can_pull_into_3 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into an empty room that is reserved for frosh. ... ok
+test_can_pull_into_4 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a non-gender locked room that is occupied ... ok
+test_can_pull_into_5 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a gender-matchinhg room that is occupied ... ok
+test_can_pull_into_6 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a non-gender-matching room that is occupied ... ok
+test_can_pull_into_7 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a room that is full (the user pulling into the room ... ok
+test_can_pull_into_8 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a room that is full (the user pulling into the room ... ok
+test_can_pull_into_9 (roomdraw_logic_and_action_tests.test_can_pull_into)
+user is attempting to pull into a room that is full (the user pulling into the room ... ok
+test_can_room_be_gender_locked_1 (roomdraw_logic_and_action_tests.test_can_room_be_gender_locked)
+room of one user ... ok
+test_can_room_be_gender_locked_2 (roomdraw_logic_and_action_tests.test_can_room_be_gender_locked)
+room of multiple users of the same gender ... ok
+test_can_room_be_gender_locked_3 (roomdraw_logic_and_action_tests.test_can_room_be_gender_locked)
+room of multiple users of different gender can be gender locked ... ok
+test_pull_into_1 (roomdraw_logic_and_action_tests.test_pull_into)
+user not able to pull into a room and the users in the room staying the same ... ok
+test_pull_into_2 (roomdraw_logic_and_action_tests.test_pull_into)
+user pull into an empty room that is not frosh reserved ... ok
+test_pull_into_3 (roomdraw_logic_and_action_tests.test_pull_into)
+user pull into an empty room that is frosh reserved with the proposed room being invalid ... ok
+test_pull_into_4 (roomdraw_logic_and_action_tests.test_pull_into)
+user pull into an empty room that is frosh reserved with the proposed room being valid ... ok
+test_pull_into_5 (roomdraw_logic_and_action_tests.test_pull_into)
+user pull into a room that is occupied but has capacity ... ok
+test_pull_into_6 (roomdraw_logic_and_action_tests.test_pull_into)
+user pull into a non-gender-locked room that is occupied and is over capacity. ... ok
+test_pull_into_7 (roomdraw_logic_and_action_tests.test_pull_into)
+user pull into a gender-locked room that is occupied and is over capacity. ... ok
+test_undo_pull_1 (roomdraw_logic_and_action_tests.test_undo_pull)
+user not be a current user of the room ... ok
+test_undo_pull_2 (roomdraw_logic_and_action_tests.test_undo_pull)
+user not be the only one in the gender-locked room ... ok
+test_undo_pull_3 (roomdraw_logic_and_action_tests.test_undo_pull)
+user not be the only one in a non gender-locked room ... ok
+test_undo_pull_4 (roomdraw_logic_and_action_tests.test_undo_pull)
+user be the only one in the gender-locked room ... ok
+test_undo_pull_5 (roomdraw_logic_and_action_tests.test_undo_pull)
+user be the only one in a non gender-locked room ... ok
+test_declare_gender_locking_1 (roomdraw_logic_and_action_tests.test_declare_gender_locking)
+gender of the users in the room are not the same ... ok
+test_declare_gender_locking_2 (roomdraw_logic_and_action_tests.test_declare_gender_locking)
+user declaring gender locking not be one of the current users of the room ... ok
+test_declare_gender_locking_3 (roomdraw_logic_and_action_tests.test_declare_gender_locking)
+test_declare_gender_locking_2 tests the implementation of declare_gender_locking by having ... ok
+test_undo_gender_locking_1 (roomdraw_logic_and_action_tests.test_undo_gender_locking)
+user be in the room and the room not be gender locked ... ok
+test_undo_gender_locking_2 (roomdraw_logic_and_action_tests.test_undo_gender_locking)
+user not be one of the current users of the room ... ok
+test_undo_gender_locking_3 (roomdraw_logic_and_action_tests.test_undo_gender_locking)
+test_undo_gender_locking_3 tests the implementation of undo_gender_locking ... ok
+test_bump_frosh_1 (roomdraw_logic_and_action_tests.test_bump_frosh)
+desired_room not be reserved for frosh ... ok
+test_bump_frosh_2 (roomdraw_logic_and_action_tests.test_bump_frosh)
+desired_room be reserved for frosh but the proposed room not ... ok
+test_bump_frosh_3 (roomdraw_logic_and_action_tests.test_bump_frosh)
+desired_room be reserved for frosh and the proposed room be valid ... ok
