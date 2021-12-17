@@ -4,7 +4,7 @@ Enforces the logic functions of HMC Room Draw and performs the actions a user ca
 1. [roomdraw_logic_and_action.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action.py)
 2. [roomdraw_logic_and_action_specifications_and_design.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_specifications_and_design.py)
 3. [roomdraw_logic_and_action_testing_plan.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_testing_plan.py)
-4. [roomdraw_logic_and_action_tests.py] (https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_tests.py)
+4. [roomdraw_logic_and_action_tests.py](https://github.com/hmcroomdraw/hmcroomdraw-backend/blob/roomdraw_logic_and_action/roomdraw_logic_and_action_tests.py)
 ## Testing
 1. Install Homebrew
 ```bash
