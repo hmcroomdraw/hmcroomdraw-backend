@@ -11,33 +11,14 @@ brew install python@3.10
 ```
 3. Clone the repository
 ```bash
-git clone https://github.com/hmcroomdraw/hmcroomdraw-backend.git
+git clone -b roomdraw_logic_and_action https://github.com/hmcroomdraw/hmcroomdraw-backend.git
 ```
-5. Open the cloned directory
+4. Open the cloned directory
 ```bash
 cd hmcroomdraw-backend
 ```
-6. Install the dependencies using pipenv
+5. Run tests
 ```bash
-pipenv install
-```
-7. Every time you restart the terminal, you have to enter the virtual environment before you can run the server.
-```bash
-pipenv shell
+python3.10 roomdraw_logic_and_action_tests.py
 ```
 
-## Run the tests
-```
-python -m unittest
-```
-
-## Initialize the database
-```
-python -c "import repository; repository.init_db()"
-```
-
-## Run the server
-```
-python server.py
-```
-- If you are using Visual Studio Code, you could also go to `Run and Debug` > `Python: Flask` instead of typing this in the terminal.
