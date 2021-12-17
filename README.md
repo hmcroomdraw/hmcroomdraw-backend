@@ -1,2 +1,2 @@
 # HMC Room Draw Logic and Action
-The backend of the CS181AA room draw website
+Enforces the logic functions of HMC Room Draw and performs the actions a user can do in HMC Room Draw
