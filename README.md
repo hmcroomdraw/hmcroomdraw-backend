@@ -51,6 +51,5 @@ python server.py
 1. `api.yaml` defines the api endpoints accessible of the server (Shared)
 2. `server.py` contains the web-server and endpoint implementations (Santi)
 3. `repository.py` contains the part of the code that connects to the database (Santi)
-4. `roomdraw_logic.py` contains the pulling and priority definitions (Adi)
-5. `schema.sql` contains the database schema (Santi)
-6. `initial_minimal.sql` contains a script that creates a minimmal database that demonstrates room draw functionalities (Santi)
+4. `schema.sql` contains the database schema (Santi)
+5. `initial_minimal.sql` contains a script that creates a minimmal database that demonstrates room draw functionalities (Santi)
