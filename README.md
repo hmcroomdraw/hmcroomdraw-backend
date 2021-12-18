@@ -46,3 +46,11 @@ python -c "import repository; repository.init_db()"
 python server.py
 ```
 - If you are using Visual Studio Code, you could also go to `Run and Debug` > `Python: Flask` instead of typing this in the terminal.
+
+## Overview of contained files
+1. `api.yaml` defines the api endpoints accessible of the server (Shared)
+2. `server.py` contains the web-server and endpoint implementations (Santi)
+3. `repository.py` contains the part of the code that connects to the database (Santi)
+4. `roomdraw_logic.py` contains the pulling and priority definitions (Adi)
+5. `schema.sql` contains the database schema (Santi)
+6. `initial_minimal.sql` contains a script that creates a minimmal database that demonstrates room draw functionalities (Santi)
